@@ -1,6 +1,47 @@
+"use client"
+
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
+
+// import { useEffect, useState } from "react"
+
 const SignUpForm = () => {
+  const router = useRouter()
+  async function handleSubmit(e:FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const userData = {
+      firstname: formData.get("firstname"),
+      lastname: formData.get("lastname"),
+      username: formData.get("username"),
+      password: formData.get("password"),
+      confirm_password: formData.get("confirm_password"),
+    }
+
+    try {
+      const response =  await fetch(`http://localhost:3456/register`, {
+        headers: {
+          "content-type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+        router.replace("/register")
+      }
+      else {
+        router.replace("/login")
+
+      }
+
+    } catch {
+      throw new Error("Failed to register user!")
+    }
+  }
     return (
-      <form action="/register" method="POST" className="flex  flex-wrap border-2 h-1/2 p-8 gap-8 justify-center m-4 max-w-96 rounded-xl bg-slate-500">
+      <form onSubmit={handleSubmit} className="flex flex-wrap border-2 h-max p-8 gap-8 justify-center m-4 max-w-96 rounded-xl bg-slate-500">
         <div className="flex flex-col gap-4">
           <div>
             <label htmlFor="fname">First Name: </label>
@@ -49,6 +90,7 @@ const SignUpForm = () => {
                 placeholder="confirm"
                 className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
           </div>
+
         </div>
         <button type="submit" className="self-end">Register</button>
       </form>
