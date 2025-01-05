@@ -26,14 +26,14 @@ const SingleComment = ({commentIsLiked, commentAuthor, comment, currentUser, aut
     const [isReply, setIsReply] = useState(false)
 
   return (
-    <div className="flex flex-col  p-3 rounded-xl " style={{maxWidth: "550px"}}>
+    <div className="flex flex-col  p-3 pb-1 rounded-xl bg-[#d1cff9] m-2" style={{maxWidth: "550px", minWidth: "380px"}}>
         <h1 className="text-sm text-gray-600 hover:underline cursor-pointer">@{authorname?.username}</h1>
         {
-        isEditMode ? <EditCommentForm content={comment.content} replyId="" type="comment" commentId = {comment.comments_id} postId={postId} setIsEditMode={setIsEditMode} /> : <p className="pt-1 text-xs italic">{comment.content}</p>
+        isEditMode ? <EditCommentForm content={comment.content} replyId="" type="comment" commentId = {comment.comments_id} postId={postId} setIsEditMode={setIsEditMode} /> : <p className="pt-1 text-[15px] italic p-2">{comment.content}</p>
         
         }
-        <div className="self-end flex gap-2 items-start">
-            <span className="text-[16px] mr-1">{comment.likes?.length}</span>
+        <div className="self-end flex gap-2 items-center">
+            <span className="text-[14px] mr-1">{comment.likes?.length}</span>
             <LikeButton replyId="" bg={commentIsLiked ? "bg-red-500" : "bg-none"} postId={postId} type="comment" commentId={comment.comments_id} />
             <ReplyButton setIsReply = {setIsReply}/>
             {
