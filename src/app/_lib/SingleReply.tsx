@@ -28,12 +28,14 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
     const replyIsLiked = reply.likes.includes(currentUser.users_id) ? true : false
 
   return (
-    <div className="flex flex-col  p-3 rounded-xl " style={{maxWidth: "550px"}}>
-        <h1 className="text-[12px] text-gray-600 hover:underline cursor-pointer">@{authorname?.replier.username}</h1>
-        <h1 className="text-[9px]">
-            <span className="opacity-70 text-black">Replied to </span>
-            <span className="text-gray-600 hover:underline cursor-pointer">@{authorname?.replied_to.username}</span>
-        </h1>
+    <div className="flex flex-col p-3 pb-1 gap-2 rounded-xl m-2 bg-[#cad5f9]" style={{maxWidth: "550px"}}>
+        <div className="flex items-center gap-3 -mb-4">
+            <h5 className="text-[12px] text-gray-600 hover:underline cursor-pointer">@{authorname?.replier.username}</h5>
+            <h5 className="text-[9px] text-green-950">
+                <span className="opacity-70 ">replied to </span>
+                <span className=" hover:underline cursor-pointer">@{authorname?.replied_to.username}</span>
+            </h5>
+        </div>
 
         {isEditMode ?
             <EditCommentForm
@@ -45,7 +47,7 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
                 setIsEditMode={setIsEditMode}/>
 
                  :
-             <p className="pt-1 text-[10px] italic mb-2">{reply.content}</p> }
+             <p className="pt-1 text-xs italic mb-2">{reply.content}</p> }
 
         <div className="self-end flex gap-2 items-start">
             <span className="text-[16px] mr-1">{reply.likes?.length}</span>

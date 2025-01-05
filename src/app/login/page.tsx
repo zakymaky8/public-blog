@@ -7,10 +7,10 @@ export const  metadata = {
 
 const Page = () => {
   return (
-    <div className="w-full flex items-center flex-col">
+    <div className="w-full flex items-center flex-col mb-20">
       <h1 className="text-gray-900 mt-8">Sign In</h1>
       <LoginForm />
-      <span className="text-gray-900">No account yet? <Link href="/register" className="no-underline text-white opacity-70 hover:opacity-100">Register</Link></span>
+      <span className="text-gray-900">No account yet? <Link href="/register" className="hover:opacity-70">Register</Link></span>
     </div>
   )
 }

@@ -27,9 +27,9 @@ const AddCommentSec = ({postId}: {postId: string}) => {
             body: JSON.stringify(commentData)
         })
         if (res.ok) {
-            router.replace(pathname)
+            router.replace(pathname, { scroll: false })
         } else {
-            router.replace("/admin-login")
+            router.replace("/admin-login", {scroll: false})
         }
 
     }
@@ -39,7 +39,7 @@ const AddCommentSec = ({postId}: {postId: string}) => {
         className="mb-6 flex justify-center flex-wrap items-center p-2 gap-2">
             <input value={value} onChange={(e) => setValue(e.target.value)} type="text" name="content" id="addcomment" className="max-w-[200px] text-white pl-2 pr-2 h-8 bg-slate-600 rounded-[2px]" placeholder="add your comment ..." required/>
             <button type="submit" className="h-8 text-white text-[12px] w-16">Add</button>
-</form>
+    </form>
   )
 }
 

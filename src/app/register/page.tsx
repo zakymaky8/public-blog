@@ -11,7 +11,7 @@ const RegistrationPage = () => {
         <br />
         <h1  className="text-gray-900">Sign Up</h1>
         <SignUpForm />
-        <span className="text-gray-900">Already Have One? <Link href="/login" className="underline">Log in</Link></span>
+        <span className="text-gray-900">Already Have One? <Link href="/login">Log in</Link></span>
     </div>
   )
 }

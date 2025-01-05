@@ -10,7 +10,7 @@ const Pagination = ({posts, ipp, setCurrentPageData}: {
 
   return (
     <ul className="flex gap-3 self-center text-black p-1">
-    {/* map function goes here */}
+
         <li>{"<"}</li>
         {Array(Math.ceil(posts.length / ipp)).fill("").map((_item,index) => {
             return <li onClick={()=> {
@@ -22,9 +22,6 @@ const Pagination = ({posts, ipp, setCurrentPageData}: {
 
             }} style={{background: ""}} key={index} className="underline cursor-pointer">{index+1}</li>; {/*this fetches with the amount set on ipp*/}
         })}
-        {/* <li className="underline cursor-pointer">1</li> this fetches with the amount set on ipp */}
-        {/* <li className="underline cursor-pointer">2</li> same as above */}
-        {/* <li className="underline cursor-pointer">3</li> same as above */}
         <li>{">"}</li>
 </ul>
   )

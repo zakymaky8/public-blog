@@ -92,7 +92,7 @@ const SignUpForm = () => {
           </div>
 
         </div>
-        <button type="submit" className="self-end">Register</button>
+        <button type="submit" className="self-end text-white">Register</button>
       </form>
     )
   }
