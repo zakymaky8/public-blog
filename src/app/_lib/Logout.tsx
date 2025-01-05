@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation"
 
 const Logout = () => {
     const router = useRouter();
-     function handleClick() {
+     async function handleClick() {
         document.cookie = `token=${null}; path=/; secure`
         document.cookie = ``
         router.replace("/")
+        await new Promise(() => setTimeout(() => window.location.reload(), 10))
     }
   return (
-    <button onClick={handleClick}>Logout</button>
+    <button onClick={handleClick} className="bg-red-800 hover:bg-red-500 text-white">Logout</button>
   )
 }
 
