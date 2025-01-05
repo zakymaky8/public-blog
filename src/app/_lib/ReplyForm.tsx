@@ -43,8 +43,7 @@ const ReplyForm = ({ postId, commentId, setIsReply, action, replyId}:
             
         } else {
             setIsReply(false)
-            router.replace(pathname);
-            // if (replyValue)setIsReply(false)
+            router.replace(pathname, {scroll: false});
         }
     }
   return (
