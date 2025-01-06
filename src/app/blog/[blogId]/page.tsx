@@ -88,10 +88,10 @@ function cap(word: string):string {
   return word[0].toUpperCase() + word.slice(1,).toLowerCase()
 }
 
+type TParams = Promise<{ blogId: string }>;
+
 const BlogDetail = async ({params}: {
-  params: {
-      blogId: string
-  }
+  params: TParams
 }) => {
     const { blogId } = await params;
     const cookieStore = cookies();
@@ -137,7 +137,7 @@ const BlogDetail = async ({params}: {
 
           <div 
             style={{lineHeight: "1.5", scrollbarWidth: "none", boxShadow: "inset 1px 1px 5px 0px "}}
-            className="main-cont max-w-[700px] overflow-auto bg-[#e5eff9] px-6  py-3 my-10 border-y-[25px] border-slate-800 text-[15px] text-justify rounded-xl"
+            className=" main-cont box-border max-w-[650px] overflow-auto bg-[#e5eff9] px-10  py-3 my-10 border-y-[25px] border-slate-800 text-[16px] rounded-xl"
             dangerouslySetInnerHTML={{ __html: post.content }} />
           </div>
 
