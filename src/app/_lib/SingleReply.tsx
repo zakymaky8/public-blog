@@ -28,7 +28,7 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
     const replyIsLiked = reply.likes.includes(currentUser.users_id) ? true : false
 
   return (
-    <div className="flex flex-col p-3 pb-1 gap-2 rounded-xl m-2 bg-[#cad5f9]" style={{maxWidth: "550px"}}>
+    <div className="flex flex-col p-3 pb-1 gap-2 rounded-xl m-2 bg-[#cad5f9]" style={{maxWidth: "80vw"}}>
         <div className="flex items-center gap-3 -mb-4">
             <h5 className="text-[12px] text-gray-600 hover:underline cursor-pointer">@{authorname?.replier.username}</h5>
             <h5 className="text-[9px] text-green-950">
@@ -47,7 +47,7 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
                 setIsEditMode={setIsEditMode}/>
 
                  :
-             <p className="pt-1 text-xs italic mb-2">{reply.content}</p> }
+             <p className="pt-1 text-[13px] italic mb-2 max-w-[400px]">{reply.content}</p> }
 
         <div className="self-end flex gap-2 items-start">
             <span className="text-[16px] mr-1">{reply.likes?.length}</span>
