@@ -29,7 +29,7 @@ const SingleComment = ({commentIsLiked, commentAuthor, comment, currentUser, aut
     <div className="flex com-sec flex-col  p-3 pb-1 rounded-xl bg-[#d1cff9] m-2" style={{maxWidth: "90vw"}}>
         <h1 className="text-sm text-gray-600 hover:underline cursor-pointer">@{authorname?.username}</h1>
         {
-        isEditMode ? <EditCommentForm content={comment.content} replyId="" type="comment" commentId = {comment.comments_id} postId={postId} setIsEditMode={setIsEditMode} /> : <p className="pt-1 text-[15px] italic p-2 max-w-[400px]">{comment.content}</p>
+        isEditMode ? <EditCommentForm content={comment.content} replyId="" type="comment" commentId = {comment.comments_id} postId={postId} setIsEditMode={setIsEditMode} /> : <p className="pt-1 text-[15px] italic p-2 max-w-[400px] break-words">{comment.content}</p>
         
         }
         <div className="self-end flex gap-2 items-center">
