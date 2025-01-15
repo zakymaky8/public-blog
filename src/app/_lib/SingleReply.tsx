@@ -47,7 +47,7 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
                 setIsEditMode={setIsEditMode}/>
 
                  :
-             <p className="pt-1 text-[13px] italic mb-2 max-w-[400px]">{reply.content}</p> }
+             <p className="pt-1 text-[13px] italic mb-2 max-w-[400px] break-words">{reply.content}</p> }
 
         <div className="self-end flex gap-2 items-start">
             <span className="text-[16px] mr-1">{reply.likes?.length}</span>
