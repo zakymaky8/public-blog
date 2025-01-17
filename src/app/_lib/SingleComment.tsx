@@ -22,7 +22,7 @@ type TProps = {
 
 const SingleComment = ({commentIsLiked, commentAuthor, comment, currentUser, authorname, postId}: TProps) => {
     const [isEditMode, setIsEditMode] = useState(false);
-    // const [value, setValue] = useState(comment.content)
+    
     const [isReply, setIsReply] = useState(false)
 
   return (
@@ -33,7 +33,7 @@ const SingleComment = ({commentIsLiked, commentAuthor, comment, currentUser, aut
         
         }
         <div className="self-end flex gap-2 items-center">
-            <span className="text-[14px] mr-1">{comment.likes?.length}</span>
+            <span className="text-[16px] mr-1 text-red-900 border-b-[5px] font-extrabold border-t-[5px] rounded-xl border-slate-700 px-[7px]">{comment.likes?.length}</span>
             <LikeButton replyId="" bg={commentIsLiked ? "bg-red-500" : "bg-none"} postId={postId} type="comment" commentId={comment.comments_id} />
             <ReplyButton setIsReply = {setIsReply}/>
             {
