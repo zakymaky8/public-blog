@@ -50,7 +50,7 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
              <p className="pt-1 text-[13px] italic mb-2 max-w-[400px] break-words">{reply.content}</p> }
 
         <div className="self-end flex gap-2 items-start">
-            <span className="text-[16px] mr-1">{reply.likes?.length}</span>
+            <span className="text-[13px] mr-1 font-extrabold text-red-900 rounded-xl border-slate-700 border-b-[5px] border-t-[5px] px-[7px] p-[1px]">{reply.likes?.length}</span>
             <LikeButton replyId={reply.replies_id} bg={replyIsLiked ? 'bg-red-500' : 'bg-none'} postId={postId} type="reply" commentId={comment.comments_id} />
             <ReplyButton setIsReply={setIsReply}/>
             {
