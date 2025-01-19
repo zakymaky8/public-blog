@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import blogIllustration from "../../public/blog-post_f68f.svg"
 
+
 export default function Home() {
   return (
     <div className="flex items-center flex-col justify-between gap-1 mb-20 p-10">

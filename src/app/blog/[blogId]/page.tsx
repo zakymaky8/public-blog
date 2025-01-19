@@ -9,6 +9,19 @@ function cap(word: string):string {
   return word[0].toUpperCase() + word.slice(1,).toLowerCase()
 }
 
+
+export async function generateMetadata({ params }: {params: {blogId: string}}) {
+  const { blogId } = await params;
+  const token = (await cookies()).get("token")?.value;
+  const res = await fetch(`http://localhost:3456/posts/${blogId}`, { headers: { "authorization": `Bearer ${token}`, "content-type": "application/json",}});
+  if (!res.ok) return { title: "Error"}
+  else {
+    const {data} = await res.json();
+    const [post] = data;
+    return {title: post.title}
+  }
+}
+
 type TParams = Promise<{ blogId: string }>;
 
 const BlogDetail = async ({params}: {
@@ -46,7 +59,7 @@ const BlogDetail = async ({params}: {
       return (
         <div className="text-black flex flex-col w-full items-center gap-5 p-5">
           <div className="flex flex-col gap-3">
-            <h1 className="text-3xl font-bold text-center font-serif italic" style={{maxWidth: "450px"}}>{post.title.toUpperCase()[0] + post.title.slice(1,)}</h1>
+            <h2 className="text-3xl font-bold text-center font-serif italic" style={{maxWidth: "450px"}}>{post.title.toUpperCase()[0] + post.title.slice(1,)}</h2>
             <div className="flex gap-4 justify-start text-[10px] italic flex-wrap items-center">
               <cite className="">Author: <strong><em>{`${cap(author.firstname)} ${cap(author.lastname)}`}</em></strong></cite>
               <p> Created at:  {post.createdAt.split("T")[0] + ' ' + post.createdAt.split("T")[1].split(".")[0]}</p>

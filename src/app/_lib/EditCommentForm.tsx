@@ -24,8 +24,8 @@ const EditCommentForm = ({content, setIsEditMode, postId, commentId, type, reply
         const commentData = {
             content: formData.get("content")
         }
-        const url = type === "comment" ? `http://localhost:3456/posts/${postId}/comments/${commentId}/update_content` :
-                                        `http://localhost:3456/posts/${postId}/comments/${commentId}/replies/${replyId}/update_content`;
+        const url = type === "comment" ? `http://localhost:3456/posts/${postId}/comments/${commentId}?action=update_content` :
+                                        `http://localhost:3456/posts/${postId}/comments/${commentId}/replies/${replyId}?action=update_content`;
 
         const res = await fetch(url, {
             method: "PUT",
@@ -37,7 +37,7 @@ const EditCommentForm = ({content, setIsEditMode, postId, commentId, type, reply
         })
         if (!res.ok) {
             alert("unable to edit")
-            router.replace('/admin-login')
+            router.replace('/login')
             setIsEditMode(false)
         } else {
             router.replace(pathname, {scroll: false})
@@ -56,7 +56,7 @@ const EditCommentForm = ({content, setIsEditMode, postId, commentId, type, reply
             id="content"
             className="h-fit w-fit resize-none  bg-slate-400 pl-1 text-green-950"
         
-        ></textarea>
+        >rr</textarea>
 
         {editValue === content ?
             <span onClick={() => setIsEditMode(false)} className="bg-black cursor-pointer text-white text-[13px] h-fit p-1 rounded-none">cancel</span> : 

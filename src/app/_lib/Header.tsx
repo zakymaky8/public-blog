@@ -49,7 +49,7 @@ export default function Header() {
         <nav className={`navsm flex -right-1 fixed self-center top-[20%] items-center justify-center w-[95%] gap-10 py-10 bg-blue-950  z-20 transition-transform duration-1000 ${menuShow ? "translate-x-0" : "translate-x-[100%]" } `} style={{boxShadow: "3px 2px 6px 0px black"}}>
           <Link onClick={()=>setMenuShow(false)} className={`text-white ${pathname === "/" ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/">Home</Link>
           <Link onClick={()=>setMenuShow(false)} className={`text-white ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/blog">Blogs</Link>
-          <Link onClick={()=>setMenuShow(false)} className={`text-white hover:text-yellow-500 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""}`} href="/about">About</Link>
+          {/* <Link onClick={()=>setMenuShow(false)} className={`text-white hover:text-yellow-500 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""}`} href="/about">About</Link> */}
           {!isLoggedIn && <Link onClick={()=>setMenuShow(false)} className={`text-white  hover:text-yellow-500 ${isActive("/login") ? "text-yellow-500  border-b-2 border-yellow-500" : ""}`} href="/login">Get In</Link>}
           {isLoggedIn && <button onClick={() => setIsShow(!isShow)} className="text-3xl rounded-[50%] p-1">🧑‍🦱</button>}
           {isShow && <UserModal setIsShow={setIsShow} userData={userData}/>}
@@ -66,11 +66,11 @@ export default function Header() {
               className={`hover:text-gray-100 ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
                 <button className="bg-transparent">Blogs</button>
             </Link>
-            <Link
+            {/* <Link
               href="/about"
               className={`hover:text-gray-100 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
                 <button className="bg-transparent"> About </button>
-            </Link>
+            </Link> */}
 
             {
               !isLoggedIn &&

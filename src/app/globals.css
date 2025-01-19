@@ -70,26 +70,20 @@ a {
 }
 
 pre, code {
-  /* white-space: pre-wrap; */
   overflow-x: auto;
-  /* position: relative;
-  left: 50%; */
-  /* word-wrap: break-word; */
-  /* overflow-x: auto; */
-  background-color: #140101;
+  background-color: rgb(20, 1, 1);
   padding: 5px;
   font-size: 14px;
   border-radius: 4px;
   line-height: 1.6;
   color: rgb(201, 141, 1);
-  /* position: relative; */
   font-style: italic;
   max-width: 70vw;
-  /* margin: 3px; */
 }
 
 button {
   background: #000;
+  color: white;
   padding: 6px;
   border-radius: 5px;
 }
@@ -128,12 +122,17 @@ dialog::backdrop {
     min-width: 90vw;
   }
   pre {
-    /* min-width: 70vw; */
     transform:  translateX(-50%);
     position: relative;
     left: 50%;
     font-size: 14px;
   }
+
+  .footer {
+    flex-direction: column;
+    gap: 50px;
+    padding-left: 50px;
+ }
 }
 
 
