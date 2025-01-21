@@ -5,6 +5,7 @@ import Logout from "./Logout"
 import { TAuthor } from "./type"
 import { cap } from "./utils"
 import ChangePwd from "./ChangePwd"
+import DeleteAccount from "./DeleteAccount"
 
 type Props = {
     setIsShow: Dispatch<SetStateAction<boolean>>,
@@ -32,6 +33,7 @@ const UserModal = ({setIsShow, userData}: Props) => {
         }
         <button className="text-yellow-600 hover:text-yellow-300" onClick={() => window.location.href = "/login"}>Login with other account</button>
         <Logout />
+        <DeleteAccount userId={userData?.users_id} />
       </div>
         <button onClick={() => setIsShow(false)} className="bg-red-600 absolute top-7 font-bold -mt-6 text-[12px] w-fit self-end">Close</button>
     </div>
