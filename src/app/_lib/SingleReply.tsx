@@ -31,10 +31,10 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
   return (
     <div className="relative flex flex-col p-3 pb-1 gap-2 rounded-xl m-3 bg-[#cad5f9]" style={{maxWidth: "80vw"}}>
         <div className="flex items-center gap-3 -mb-4">
-            <h5 className="text-[12px] text-gray-600 hover:underline cursor-pointer">@{authorname?.replier.username}</h5>
+            <h5 className="text-[12px] text-gray-600 hover:underline cursor-pointer">@{authorname?.replier.username} {authorname?.replier.Role==="ADMIN" && <span className="text-[9px] bg-black p-[2px] rounded-md mb-2 text-yellow-500">Author</span>}</h5>
             <h5 className="text-[9px] text-green-950">
                 <span className="opacity-70 ">replied to </span>
-                <span className=" hover:underline cursor-pointer">@{authorname?.replied_to.username}</span>
+                <span className=" hover:underline cursor-pointer">@{authorname?.replied_to.username} {authorname?.replied_to.Role==="ADMIN" && <span className="text-[9px] bg-black p-[2px] rounded-md mb-2 text-yellow-500">Author</span>}</span>
             </h5>
         </div>
         { reply.isUpdated && <span className="text-[10px] absolute top-8 right-3 text-yellow-900">edited!</span>}

@@ -42,7 +42,7 @@ const Blogs =  async () => {
                 {
                     posts.length ? posts.map((post:Post) => {
                         return <BlogCard excerpt={post.excerpt} readTime={post.readTime} post={post} id={post.posts_id} key={post.posts_id} content={post.content} title={post.title}/>
-                    }) : <span>No posts available!</span>
+                    }) : <span className="mt-20">No posts available!</span>
                 }
             </div>
         </div>
