@@ -70,22 +70,20 @@ a {
 }
 
 pre, code {
-  white-space: pre-wrap;
-  word-wrap: break-word;
   overflow-x: auto;
-  background-color: #050119;
-  padding: 15px;
+  background-color: rgb(20, 1, 1);
+  padding: 5px;
+  font-size: 14px;
   border-radius: 4px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 11px;
-  line-height: 2.7;
-  color: rgb(158, 158, 248);
-  position: relative;
-  margin: 13px;
+  line-height: 1.6;
+  color: rgb(201, 141, 1);
+  font-style: italic;
+  max-width: 70vw;
 }
 
 button {
   background: #000;
+  color: white;
   padding: 6px;
   border-radius: 5px;
 }
@@ -108,4 +106,47 @@ dialog {
 
 dialog::backdrop {
   background: rgba(205, 0, 0, 0.6);
+}
+
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
+
+  .ham {
+    display: block;
+  }
+  .main-cont {
+    margin: 0;
+    min-width: 90vw;
+  }
+  pre {
+    transform:  translateX(-50%);
+    position: relative;
+    left: 50%;
+    font-size: 14px;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 50px;
+    padding-left: 50px;
+ }
+}
+
+
+
+
+@media screen and (min-width: 769px) {
+  #hamburger {
+    display: none;
+  }
+  .navsm {
+    display: none;
+  }
+  .main-cont {
+    max-width: 650px;
+  }
+
 }

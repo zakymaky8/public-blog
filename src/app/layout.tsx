@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col justify-between bg-slate-300`} style={{minHeight: "100vh"}}>
         <Header />
-        <div className="flex-auto">
+        <div className="flex-auto mb-28">
           {children}
         </div>
         <Footer />

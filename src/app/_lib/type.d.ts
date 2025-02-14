@@ -11,6 +11,7 @@ export type TComment = {
   content: string;
   createdAt: Date;
   lastUpdate: Date;
+  isUpdated: boolean;
   likes: string[];
   user_id: string;
   comments_id: string;
@@ -23,6 +24,8 @@ user_id: string;
 replies_id: string;
 comment_id: string;
 replied_id: string;
+createdAt: Date;
+isUpdated: boolean;
 likes: string[]
 }
 
