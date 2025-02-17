@@ -1,10 +1,11 @@
 import Link from "next/link"
 import { Post } from "../blog/page";
-import { cookies } from "next/headers";
 import { decideWhichFormat, isNew } from "./utils";
 
 import newBadge from "../../../public/new_badge_icon.svg"
 import Image from "next/image";
+import { fetchPostsComments } from "@/actions/fetches";
+import { redirect } from "next/navigation";
 
 interface BlogInfo {
     id: string,
@@ -16,16 +17,13 @@ interface BlogInfo {
 }
 
 const BlogCard = async ({id, title, excerpt, post, readTime}: BlogInfo) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value
-  const res = await fetch(`http://localhost:3456/posts/${id}/comments`, {
-    headers: {
-        "authorization": `Bearer ${token}`,
-        "content-type": "application/json"
-      }
-  });
-  const { data } = await res.json();
-  const [comments] = data;
+
+  const { success, data, redirectUrl } = await fetchPostsComments(id);
+
+  if (!success && redirectUrl !== null) {
+      redirect(redirectUrl)
+  }
+  const {comments} = data;
 
 
   return (

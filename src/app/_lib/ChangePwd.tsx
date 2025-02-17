@@ -1,7 +1,8 @@
 "use client"
 
-import { Dispatch, FormEvent, SetStateAction, useState } from "react"
-import { getTokenFromCookies } from "./utils"
+import { Dispatch, SetStateAction, useActionState, useState } from "react"
+import { changeUserPassword } from "@/actions/changePassword"
+import { useRouter } from "next/navigation"
 
 
 type Props = {
@@ -10,41 +11,24 @@ type Props = {
 }
 
 const ChangePwd = ({setShowPwdChange}: Props) => {
-    const [err, setError] = useState("");
-    const [message, setMessage] = useState("");
     const [ value, setValue ] = useState("")
+    const router = useRouter()
 
-    const handleSubmit = async function(e:FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const formdata = new FormData(e.target as HTMLFormElement);
-        const userInps = {
-            oldpwd: formdata.get("old_pwd"),
-            newpwd: formdata.get("new_pwd")
-        }
-        const token = getTokenFromCookies();
+    const [ state, formAction ] = useActionState( changeUserPassword, { success: "", message: "", redirectUrl: "" } )
 
-        const res = await fetch(`http://localhost:3456/user/change_password`, {
-            method: "PUT",
-            headers: {
-                "authorization": `Bearer ${token}`,
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(userInps)
-        })
-        if (!res.ok) {
-            const { error } = await res.json();
-            setError(error)
-            setTimeout(() => setError(""), 3000)
-        }
-        else {
-            const { message } = await res.json();
-            setMessage(message)
-            setTimeout(() => setMessage(""), 3000)
-        }
+    if (state.success === false && ![null, ""].includes(state.redirectUrl)) {
+        router.replace(state.redirectUrl!)
+    }
+    if (state.success === false) {
+        alert(state.message)
+    }
+
+    if (state.success) {
+        router.replace("/login")
     }
   return (
     <form
-        onSubmit={handleSubmit}
+        action={formAction}
         className="bg-red-950 text-yellow-600 mb-6 mt-2 rounded-md p-2 flex flex-col items-center gap-4">
         <div>
             <label htmlFor="oldpwd">Old Password</label><br />
@@ -66,7 +50,8 @@ const ChangePwd = ({setShowPwdChange}: Props) => {
         </div>
         <button type={value ? "submit" : "button"} onClick={() => value ? "" : setShowPwdChange(false)} className="text-green-400 font-bold p-1 bg-transparent text-[11px]">{value ? "Change" : "Collapse"}</button>
 
-        <span className="text-red-400 italic">{err? err : message ? message : ""}</span>
+        {state.success !== "" && <span className="text-red-400 italic">{state.message}</span>}
+
     </form>
   )
 }
