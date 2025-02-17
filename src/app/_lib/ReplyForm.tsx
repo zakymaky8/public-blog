@@ -1,8 +1,9 @@
 "use client"
 
-import {  Dispatch, FormEvent, SetStateAction, useState } from "react"
-import { getTokenFromCookies } from "./utils"
-import { usePathname, useRouter } from "next/navigation"
+import {  Dispatch, SetStateAction, useActionState, useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { createReplyToCommentAction, createReplyToReplyAction } from "@/actions/createReply"
+import { TReply } from "./type"
 
 
 const ReplyForm = ({ postId, commentId, setIsReply, action, replyId}:
@@ -15,57 +16,49 @@ const ReplyForm = ({ postId, commentId, setIsReply, action, replyId}:
 }) => {
     const [replyValue, setReplyValue] = useState("")
     const router = useRouter()
-    const pathname = usePathname()
-
-    async function handleSubmit(e:FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const token = getTokenFromCookies()
-
-        const formData = new FormData(e.target as HTMLFormElement);
-        const commentData = {
-            content: formData.get("content")
-        }
-        const url = (action === "to_comment") ?
-                `http://localhost:3456/posts/${postId}/comments/${commentId}/replies?action=${action}`:
-                `http://localhost:3456/posts/${postId}/comments/${commentId}/replies/${replyId}?action=${action}`;
-
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                "authorization": `Bearer ${token}`,
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(commentData)
-        })
-        if (!res.ok) {
-            setIsReply(false)
-            alert("unable to REPLY")
-            
-        } else {
-            setIsReply(false)
-            router.replace(pathname, {scroll: false});
-        }
+    
+    const actionWrapper = async (prev: { success: boolean, message: string, redirectUrl: string | null, reply: TReply }, formData: FormData) => {
+        return action === "to_comment" ?
+                    await createReplyToCommentAction(postId, commentId, action, formData) :
+                    await createReplyToReplyAction(postId, commentId, replyId, action, formData)
     }
-  return (
-    <form
-        onSubmit={handleSubmit}
-        className="flex mt-1 mb-1"
-        >
-        <textarea
-            name="content"
-            id="content"
-            value={replyValue}
-            onChange={(e)=> setReplyValue(e.target.value)}
-            placeholder="reply comment"
-            className="h-[40px]  w-fit resize-none  bg-slate-400 pl-1 text-green-950"
 
-        ></textarea>
-        {replyValue ? <button type="submit" className=" rounded-none h-fit w-50px text-[13px] text-white">Reply</button>: 
-        <span onClick={() => setIsReply(false)} className="bg-black cursor-pointer text-white text-[13px] h-fit p-1 rounded-none">cancel</span>
+    const [state, formStateAction] = useActionState(actionWrapper, { success: "", message: "", redirectUrl: "", reply: "" })
+
+    if (!state.success && !["", null].includes(state.redirectUrl)) {
+        router.replace(state.redirectUrl!)
+    } else if (state.success === false) {
+        alert(state.message)
+    }
+
+    useEffect(() => {
+        if (state.success === true) {
+            setIsReply(false)
+            router.refresh();
         }
+        state.success = ""
+    }, [state, router, setIsReply]);
 
-    </form>
-  )
+    return (
+        <form
+            action={formStateAction}
+            className="flex mt-1 mb-1"
+            >
+            <textarea
+                name="content"
+                id="content"
+                value={replyValue}
+                onChange={(e)=> setReplyValue(e.target.value)}
+                placeholder="reply comment"
+                className="h-[40px]  w-fit resize-none  bg-slate-400 pl-1 text-green-950"
+
+            ></textarea>
+            {replyValue ? <button type="submit" className=" rounded-none h-fit w-50px text-[13px] text-white">Reply</button>: 
+            <span onClick={() => setIsReply(false)} className="bg-black cursor-pointer text-white text-[13px] h-fit p-1 rounded-none">cancel</span>
+            }
+
+        </form>
+    )
 }
 
 export default ReplyForm

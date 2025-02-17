@@ -1,53 +1,24 @@
 "use client";
+
+import { SignUserInAction } from "@/actions/authAction";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useActionState, useState } from "react";
 
 
 const LoginForm = () => {
   const router = useRouter()
-  const [error, setError] = useState("");
   const [isPwdSeen, setIsPwdSeen] = useState(false)
 
-  const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [ state, formAction ] = useActionState(SignUserInAction, { success: "", message: "", redirectUrl: "" })
 
-    const formData = new FormData(e.target as HTMLFormElement);
-    const loginData = {
-      username: formData.get("username"),
-      password: formData.get("password"),
-    };
-
-    try {
-      const res = await fetch("http://localhost:3456/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
-
-      if (!res.ok) {
-        setError("Invalid username or password");
-        const errMsg:string = await new Promise(resolve => setTimeout(() => resolve(""), 3000))
-        setError(errMsg)
-        return;
-      }
-
-      const { token } = await res.json();
-      document.cookie = `token=${token}; path=/; secure`
-
-      router.replace("/blog")
-      await new Promise(() => setTimeout(() => window.location.reload(), 500))
-
-    } catch (err) {
-      setError("An error occurred during login");
-      console.error(err);
-    }
-  };
+  if (state.success && !["", null].includes(state.redirectUrl) ) {
+    router.push(state.redirectUrl!)
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col border-2 h-max p-8 gap-5 m-4 max-w-96 rounded-xl bg-slate-500">
-      {error && <p className="text-[rgb(95,24,24)] italic text-sm">{error}</p>}
+    <form
+      action={formAction}
+      className="flex flex-col border-2 h-max p-8 gap-5 m-4 max-w-96 rounded-xl bg-slate-500">
       <div>
         <label htmlFor="uname">Username: </label>
         <input
@@ -73,7 +44,8 @@ const LoginForm = () => {
       </div>
 
       <button type="submit" className="text-white">Log in</button>
-  
+      {!state.success && <p className="text-[rgb(95,24,24)] italic text-sm self-center">{state.message}</p>}
+      {state.success && <p className="text-[rgb(23,75,18)] italic text-sm self-center">{state.message}</p>}
     </form>
   );
 };

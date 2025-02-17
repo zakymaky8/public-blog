@@ -1,37 +1,40 @@
 "use client"
 
-import { FormEvent } from "react"
-import { getTokenFromCookies } from "./utils"
+import { useActionState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { deleteUserAction } from "@/actions/deleteAccount"
+import { logUserOutAction } from "@/actions/logoutAction"
 
-const DeleteAccount = ({userId}: {userId: string| undefined}) => {
-    const router = useRouter();
+const DeleteAccount = ({userId}: {userId: string | undefined}) => {
 
-    async function handleSubmit(e:FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const confirmed = confirm("are you sure You wanted to delete user?")
+  const router = useRouter();
+  const actionWrapper = async () =>  await deleteUserAction(userId!)
+  const [ state, formAction ] = useActionState(actionWrapper, { success: "", message: "", redirectUrl: "", data: "" } )
 
-        if (confirmed) {
-            const token = getTokenFromCookies()
+  if (!["", null].includes(state.redirectUrl)) {
+      router.push(state.redirectUrl!)
+  }
+  if(state.success === false && state.redirectUrl === null ) {
+      alert(state.message)
+  }
 
-            const res= await fetch(`http://localhost:3456/user/${userId}?action=delete-account`, {
-                method: "DELETE",
-                headers: {"authorization": `Bearer ${token}`}
-            });
-            if (!res.ok) {
-                alert("Unable to delete!")
-            } else {
-                document.cookie = `token=${null}; path=/; secure`
-                document.cookie = ``
-                router.replace("/register")
-                await new Promise(() => setTimeout(() => window.location.reload(), 1000))
-            }
-        }
-        else alert("deletion canceled")
+  useEffect(() => {
+
+    async function walkUserOut() {
+      if (state.success === true) {
+        await logUserOutAction()
+        router.replace("/register");
+      }
+      state.success = ""
     }
+    walkUserOut()
+  }, [state, router]);
+
   return (
-    <form onSubmit={handleSubmit} className="bg-red-800 rounded-md flex justify-center">
-      <button className="bg-red-800">Delete My Account</button>
+    <form
+        action={formAction}
+        className="bg-red-800 rounded-md flex justify-center">
+      <button type="submit" className="bg-red-800">Delete My Account</button>
     </form>
   )
 }

@@ -9,14 +9,15 @@ import DeleteAccount from "./DeleteAccount"
 
 type Props = {
     setIsShow: Dispatch<SetStateAction<boolean>>,
-    userData: TAuthor | undefined
+    userData: TAuthor | undefined,
+    setIsLoggedIn: Dispatch<SetStateAction<boolean>>
 
 }
 
 
-const UserModal = ({setIsShow, userData}: Props) => {
+const UserModal = ({setIsShow, userData, setIsLoggedIn}: Props) => {
     const [showPwdChange, setShowPwdChange]= useState(false);
-
+  console.log(userData)
   return (
     <div
         className="min-w-[270px] flex gap-8 rounded-lg flex-col fixed z-20 top-[25px] right-[10px] p-4  bg-yellow-600 border-y-[10px] border-gray-900"
@@ -32,7 +33,7 @@ const UserModal = ({setIsShow, userData}: Props) => {
             <ChangePwd setShowPwdChange={setShowPwdChange} showPwdChange={showPwdChange}/>
         }
         <button className="text-yellow-600 hover:text-yellow-300" onClick={() => window.location.href = "/login"}>Login with other account</button>
-        <Logout />
+        <Logout setIsLoggedIn={setIsLoggedIn}/>
         <DeleteAccount userId={userData?.users_id} />
       </div>
         <button onClick={() => setIsShow(false)} className="bg-red-600 absolute top-7 font-bold -mt-6 text-[12px] w-fit self-end">Close</button>

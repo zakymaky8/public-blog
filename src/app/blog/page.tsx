@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import BlogCard from "../_lib/BlogCard"
-import { cookies } from "next/headers";
 import Search from "../_lib/Search";
+import { fetchPublishedPosts } from "@/actions/fetches";
 
 export interface Post {
     posts_id: string,
@@ -21,20 +21,12 @@ export const metadata = {
 }
 
 const Blogs =  async () => {
-    const cookieStore = cookies();
-    const token = (await cookieStore).get("token")?.value;
+    const { success, posts, redirectUrl } = await fetchPublishedPosts();
 
-    const res = await fetch("http://localhost:3456/posts", {
-        method: "GET",
-        headers: {
-            "content-type": "application/json",
-            "authorization": `Bearer ${token}`
-        },
-    });
-    if (!res.ok) {
-        redirect("/login")
+    if (!success && redirectUrl !== null) {
+        redirect(redirectUrl)
     }
-    const { posts } = await res.json();
+
     return (
         <div className="flex flex-col items-center gap-10 mt-5 mb-20">
             <Search />

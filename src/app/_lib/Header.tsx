@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
-import { getTokenFromCookies } from "./utils";
 import { useEffect, useState } from "react";
 import { TAuthor } from "./type";
 import UserModal from "./UserModal";
@@ -11,6 +10,7 @@ import Image from "next/image";
 
 import ham from "../../../public/ham.svg"
 import close from "../../../public/close_icon.svg"
+import { checkLogInStatus } from "@/actions/authAction";
 
 export default function Header() {
   const pathname = usePathname()
@@ -20,24 +20,21 @@ export default function Header() {
   const [menuShow, setMenuShow] = useState(false)
   const isActive = (str: string) => pathname.includes(str)
 
+
   useEffect(() => {
-    const getUser = async function() {
-      const token = getTokenFromCookies();
-      const res = await fetch("http://localhost:3456/current_user", {
-        headers: {
-          "authorization": `Bearer ${token}`,
-          "content-type": "application/json"
-        }
-      })
-      if (!res.ok) {
+    const IsUserLoggedIn = async () => {
+      const { success, user } = await checkLogInStatus()
+      if (success) {
+        setIsLoggedIn(true)
+        setUserData(user)
+      } else {
         setIsLoggedIn(false)
       }
-      const { user } = await res.json()
-      setIsLoggedIn(true)
-      setUserData(user)
     }
-    getUser()
-  }, [])
+
+    IsUserLoggedIn()
+
+  },[])
   return (
     <div className="flex justify-between items-center min-h-28 bg-[#040f28] shadow-inner p-4 flex-wrap gap-4">
         <h1> <Link className="text-4xl text-gray-300 no-underline" href="/"> Tip Logger</Link></h1>
@@ -52,7 +49,7 @@ export default function Header() {
           {/* <Link onClick={()=>setMenuShow(false)} className={`text-white hover:text-yellow-500 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""}`} href="/about">About</Link> */}
           {!isLoggedIn && <Link onClick={()=>setMenuShow(false)} className={`text-white  hover:text-yellow-500 ${isActive("/login") ? "text-yellow-500  border-b-2 border-yellow-500" : ""}`} href="/login">Get In</Link>}
           {isLoggedIn && <button onClick={() => setIsShow(!isShow)} className="text-3xl rounded-[50%] p-1">🧑‍🦱</button>}
-          {isShow && <UserModal setIsShow={setIsShow} userData={userData}/>}
+          {isShow && <UserModal setIsLoggedIn={setIsLoggedIn} setIsShow={setIsShow} userData={userData}/>}
         </nav>
         <nav className="navbar flex gap-1 items-center justify-between flex-wrap">
             <Link
@@ -85,15 +82,10 @@ export default function Header() {
               isLoggedIn && <button onClick={() => setIsShow(!isShow)} className="text-3xl rounded-[50%] p-1">🧑‍🦱</button>
             }
             {
-              isShow && <UserModal setIsShow={setIsShow} userData={userData}/>
+              isShow && <UserModal setIsShow={setIsShow} userData={userData} setIsLoggedIn={setIsLoggedIn}/>
             }
 
         </nav>
     </div>
   )
 }
-
-
-// create branch called develop
-// create another feature branch
-// work on any thing
