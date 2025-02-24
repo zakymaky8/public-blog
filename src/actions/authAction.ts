@@ -18,7 +18,7 @@ export const SignUserInAction = async (prev: TSignInState, formdata: FormData) =
     }
 
 
-    const url = `${process.env.API_URL}/api/login`;
+    const url = `${process.env.API_URL}/api/user/auth/login`;
     try {
         const response = await fetch(url, {
             method: "POST",

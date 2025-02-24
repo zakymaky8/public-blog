@@ -43,15 +43,41 @@ export default function Header() {
           <Image src={menuShow ? close : ham} className="h-8 w-8" alt="menu"/>
         </button>
 
-        <nav className={`navsm flex -right-1 fixed self-center top-[20%] items-center justify-center w-[95%] gap-10 py-10 bg-blue-950  z-20 transition-transform duration-1000 ${menuShow ? "translate-x-0" : "translate-x-[100%]" } `} style={{boxShadow: "3px 2px 6px 0px black"}}>
+      {/* small device navigation */}
+
+        <nav
+          className={`navsm flex -right-1 fixed
+                    self-center top-[20%] items-center
+                    justify-center w-[95%] gap-10 py-10
+                    bg-blue-950  z-20 transition-transform
+                    duration-1000 ${menuShow ? "translate-x-0" : "translate-x-[100%]" } `}
+          style={{boxShadow: "3px 2px 6px 0px black"}}
+          >
+
           <Link onClick={()=>setMenuShow(false)} className={`text-white ${pathname === "/" ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/">Home</Link>
           <Link onClick={()=>setMenuShow(false)} className={`text-white ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/blog">Blogs</Link>
-          {/* <Link onClick={()=>setMenuShow(false)} className={`text-white hover:text-yellow-500 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""}`} href="/about">About</Link> */}
           {!isLoggedIn && <Link onClick={()=>setMenuShow(false)} className={`text-white  hover:text-yellow-500 ${isActive("/login") ? "text-yellow-500  border-b-2 border-yellow-500" : ""}`} href="/login">Get In</Link>}
           {isLoggedIn && <button onClick={() => setIsShow(!isShow)} className="text-3xl rounded-[50%] p-1">🧑‍🦱</button>}
           {isShow && <UserModal setIsLoggedIn={setIsLoggedIn} setIsShow={setIsShow} userData={userData}/>}
+
         </nav>
-        <nav className="navbar flex gap-1 items-center justify-between flex-wrap">
+
+      {/*  large device navigation */}
+
+        <div
+            onClick={()=>{
+              setMenuShow(false)
+              setIsShow(false)
+            }}
+            className={`
+                fixed right-0 top-0 w-screen z-10
+                min-h-screen bg-[#07283e] opacity-50
+                ${(menuShow || isShow) ? "block" : "hidden"}
+              `}>
+        </div>
+
+
+        <nav className="navbar flex gap-10 items-center justify-between flex-wrap">
             <Link
               href="/"
               className={`hover:text-gray-100 ${pathname === "/" ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
@@ -63,11 +89,6 @@ export default function Header() {
               className={`hover:text-gray-100 ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
                 <button className="bg-transparent">Blogs</button>
             </Link>
-            {/* <Link
-              href="/about"
-              className={`hover:text-gray-100 ${isActive("/about") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
-                <button className="bg-transparent"> About </button>
-            </Link> */}
 
             {
               !isLoggedIn &&

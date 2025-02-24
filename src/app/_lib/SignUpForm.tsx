@@ -6,7 +6,7 @@ import { useActionState } from "react";
 
 
 const SignUpForm = () => {
-  const router = useRouter()
+    const router = useRouter()
 
     const [state, formAction] = useActionState(SignUpAction, { success: "", message: "", redirectUrl: "", user: null })
 
@@ -17,10 +17,10 @@ const SignUpForm = () => {
     return (
       <form
           action={formAction}
-          className="flex flex-wrap border-2 h-max p-8 gap-8 justify-center m-4 max-w-96 rounded-xl bg-slate-500">
+          className="flex flex-col border-2 h-max p-8 gap-8 justify-center m-4 min-w-72 rounded-xl bg-slate-500">
 
-        <div className="flex flex-col gap-4">
-          <div>
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex justify-between gap-2 w-full">
             <label htmlFor="fname">First Name: </label>
             <input
                 type="text"
@@ -28,9 +28,9 @@ const SignUpForm = () => {
                 id="fname"
                 placeholder="first name"
                 required
-                className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
-          <div>
+          <div className="flex justify-between gap-2 w-full">
             <label htmlFor="lname">Last Name: </label>
             <input
                 type="text"
@@ -38,11 +38,11 @@ const SignUpForm = () => {
                 id="lname"
                 placeholder="last name"
                 required
-                className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
         </div>
-        <div  className="flex flex-col gap-4">
-          <div>
+        <div  className="flex flex-col gap-4 w-full">
+          <div className="flex justify-between gap-2 w-full">
             <label htmlFor="uname">Username: </label>
             <input
                 type="text"
@@ -50,9 +50,9 @@ const SignUpForm = () => {
                 id="uname"
                 placeholder="username"
                 required
-                className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
-          <div>
+          <div className="flex justify-between gap-2 w-full">
             <label htmlFor="pwd">Password: </label>
             <input
                 type="password"
@@ -60,9 +60,9 @@ const SignUpForm = () => {
                 id="pwd"
                 placeholder="password"
                 required
-                className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
-          <div>
+          <div className="flex justify-between gap-2 w-full">
             <label htmlFor="cpwd">Confirm Password: </label>
             <input
                 type="text"
@@ -70,24 +70,13 @@ const SignUpForm = () => {
                 id="cpwd"
                 placeholder="confirm"
                 required
-                className="w-32 bg-slate-800 rounded-lg p-1 box-border" />
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
           {
             !state.success && <span className="text-red-700 text-[12px] self-center italic">{state.message}</span>
           }
         </div>
-        <button type="submit" className="self-end text-white">Register</button>
-{/* 
-        {
-          valErr.length > 0 && 
-            <ol>
-              {valErr.map((err, index) => {
-                return <li key={index} className="text-red-700 text-[12px] italic">{err}</li>
-              })}
-            </ol>
-        } */}
-
-
+        <button type="submit" className="text-white bg-slate-800 hover:bg-slate-900 h-10">Register</button>
 
       </form>
     )

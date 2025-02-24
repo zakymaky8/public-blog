@@ -25,13 +25,15 @@ export const fetchPublishedPosts = async () => {
         return {
             success,
             message,
+            status: response.status,
             redirectUrl: [400, 401, 403].includes(response.status) ? "/login" : null,
             posts
         }
     } catch {
         return {
             success: false,
-            message: "Error Occured!",
+            status: false,
+            message: "Failed to fetch blog information!",
             redirectUrl: null,
             posts: null
         }
@@ -56,7 +58,7 @@ export const fetchPostsComments = async (postId: string) => {
     } catch {
         return {
             success: false,
-            message: "Error Occured!",
+            message: "Failed to fetch blog information!",
             redirectUrl: null,
             data: null
         }
@@ -86,7 +88,7 @@ export const fetchSinglePost = async (postId: string) => {
     } catch {
         return {
             success: false,
-            message: "Error Occured!",
+            message: "Failed to fetch blog information!",
             status: null,
             redirectUrl: null,
             data: null

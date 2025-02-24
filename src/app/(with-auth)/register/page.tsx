@@ -1,5 +1,5 @@
+import SignUpForm from "@/app/_lib/SignUpForm"
 import Link from "next/link"
-import SignUpForm from "../_lib/SignUpForm"
 
 export const metadata = {
   title: "Register"

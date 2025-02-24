@@ -11,7 +11,7 @@ type TSignUpState = {
 
 export const SignUpAction = async (prev: TSignUpState, formdata: FormData) => {
 
-    const url = `${process.env.API_URL}/api/register`;
+    const url = `${process.env.API_URL}/api/user/auth/register`;
     console.log(url)
 
     const userData = {
