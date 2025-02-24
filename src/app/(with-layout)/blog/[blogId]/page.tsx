@@ -1,6 +1,7 @@
 import { fetchSinglePost } from "@/actions/fetches";
 import AddCommentSec from "@/app/_lib/AddCommentSec";
 import CommentsCard from "@/app/_lib/CommentsCard";
+import Inconvienence from "@/app/_lib/Inconvienence";
 import LikeButton from "@/app/_lib/LikeButton";
 import { decideWhichFormat } from "@/app/_lib/utils";
 import Link from "next/link";
@@ -28,18 +29,9 @@ const BlogDetail = async ({params}: {
     const { blogId } = await params;
     const { data, message, redirectUrl, status, success} = await fetchSinglePost(blogId)
 
-    if (!success && status === 400) {
-      return (
-        <div className="ml-auto text-center pt-40 p-20 text-black italic">
-          <p className="opacity-60">{message}!</p>
-          <Link href="/blog" className="hover:opacity-60">See other posts</Link>
-        </div>
-      )
-    }
+    if (!success || status === 404) return <Inconvienence message={message} />
+    if ( !success && redirectUrl !== null) redirect(redirectUrl)
 
-    if ( !success && redirectUrl !== null) {
-      redirect(redirectUrl)
-    }
     const {post, author, currentUser} = data
 
     const postIsLiked = post?.likes?.includes(currentUser.users_id) ? true : false;
@@ -57,7 +49,7 @@ const BlogDetail = async ({params}: {
 
         <div className="p-4">
 
-        <div 
+        <div
           style={{lineHeight: "1.5", scrollbarWidth: "none", boxShadow: "inset 1px 1px 5px 0px "}}
           className=" main-cont box-border max-w-[650px] overflow-auto bg-[#e5eff9] px-10  py-3 my-10 border-y-[25px] border-slate-800 text-[16px] rounded-xl"
           dangerouslySetInnerHTML={{ __html: post.content }} />

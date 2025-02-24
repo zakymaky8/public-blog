@@ -1,6 +1,6 @@
 // "use client"
 import { Dispatch, SetStateAction } from "react";
-import { Post } from "../blog/page"
+import { Post } from "../(with-layout)/blog/page"
 
 const Pagination = ({posts, ipp, setCurrentPageData}: {
     posts:Post[],

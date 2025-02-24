@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Post } from "../blog/page";
+import { Post } from "../(with-layout)/blog/page";
 import { decideWhichFormat, isNew } from "./utils";
 
 import newBadge from "../../../public/new_badge_icon.svg"

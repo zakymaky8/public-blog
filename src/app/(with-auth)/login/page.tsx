@@ -1,5 +1,6 @@
+import LoginForm from "@/app/_lib/LoginForm"
 import Link from "next/link"
-import LoginForm from "../_lib/LoginForm"
+
 
 export const  metadata = {
   title: "Login"

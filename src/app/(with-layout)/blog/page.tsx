@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
-import BlogCard from "../_lib/BlogCard"
-import Search from "../_lib/Search";
+import BlogCard from "../../_lib/BlogCard"
+import Search from "../../_lib/Search";
 import { fetchPublishedPosts } from "@/actions/fetches";
+import Inconvienence from "@/app/_lib/Inconvienence";
 
 export interface Post {
     posts_id: string,
@@ -21,11 +22,10 @@ export const metadata = {
 }
 
 const Blogs =  async () => {
-    const { success, posts, redirectUrl } = await fetchPublishedPosts();
+    const { success, posts, redirectUrl, message, status } = await fetchPublishedPosts();
 
-    if (!success && redirectUrl !== null) {
-        redirect(redirectUrl)
-    }
+    if (!success || status === 404) return <Inconvienence message={message} />
+    if (!success && redirectUrl !== null) redirect(redirectUrl)
 
     return (
         <div className="flex flex-col items-center gap-10 mt-5 mb-20">
