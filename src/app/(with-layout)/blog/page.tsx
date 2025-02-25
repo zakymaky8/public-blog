@@ -32,7 +32,13 @@ const Blogs =  async () => {
 
     if (status === 404) return <Inconvienence message={message} />
     if (!success && redirectUrl !== null) redirect(redirectUrl)
-
+    if (!success || status === 429) {
+        return (
+            <div className="ml-auto text-center pt-40 p-20 text-black italic min-h-[70vh]">
+                <p className="opacity-60">{message}!</p>
+            </div>
+        )
+    }
     return (
         <div className="flex flex-col items-center gap-10 mt-5 mb-20">
             <Search />
