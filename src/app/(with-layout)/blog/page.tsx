@@ -3,6 +3,7 @@ import BlogCard from "../../_lib/BlogCard"
 import Search from "../../_lib/Search";
 import { fetchPublishedPosts } from "@/actions/fetches";
 import Inconvienence from "@/app/_lib/Inconvienence";
+import { getAccessToken } from "@/utils/server-only";
 
 export interface Post {
     posts_id: string,
@@ -23,16 +24,14 @@ export const metadata = {
 
 const Blogs =  async () => {
     const { success, posts, redirectUrl, message, status } = await fetchPublishedPosts();
+    const token = getAccessToken();
+    
+    if (!token) {
+        redirect("/login")
+    }
 
     if (status === 404) return <Inconvienence message={message} />
     if (!success && redirectUrl !== null) redirect(redirectUrl)
-    if (!success && redirectUrl === null && status !== 404) {
-        return (
-            <div className="ml-auto text-center pt-40 p-20 text-black italic min-h-[70vh]">
-                <p className="opacity-60">{message}!</p>
-            </div>
-        )
-    }
 
     return (
         <div className="flex flex-col items-center gap-10 mt-5 mb-20">
