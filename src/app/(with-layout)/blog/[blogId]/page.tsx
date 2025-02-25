@@ -12,7 +12,7 @@ function cap(word: string):string {
 }
 
 
-export async function generateMetadata({ params }: {params: {blogId: string}}) {
+export async function generateMetadata({ params }: {params: Promise<{blogId: string}>}) {
   const { blogId } = await params;
   const { data, message, success } = await fetchSinglePost(blogId);
   if (!success ) return { title: message}
