@@ -5,3 +5,7 @@ Front end blog for viewing posts and commenting on
 
 - TypeScript
 - Next - React framework
+
+## Live Demo
+
+[Zachlog](https://zach-log.vercel.app/)
