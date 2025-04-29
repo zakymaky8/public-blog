@@ -7,7 +7,7 @@ const Page = () => {
       <div className="flex items-center bg-slate-900 bg-opacity-80 flex-col p-5">
         <h1 className="text-white mt-8">Sign In</h1>
         <LoginForm />
-        <div className="text-gray-400 text-[14px]">No account yet? <Link href="/register" className="text-white opacity-70 hover:opacity-100">Register</Link></div>
+        <div className="text-gray-950 text-[14px] mt-10">No account yet? <Link href="/register" className="text-white opacity-70 hover:opacity-100">Register</Link></div>
       </div>
     </div>
   )

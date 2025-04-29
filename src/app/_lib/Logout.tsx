@@ -18,7 +18,7 @@ const Logout = ({ setIsLoggedIn }: TProps) => {
           setIsLoggedIn(false)
           router.replace("/login", { scroll: false })
         }}
-        className="bg-red-800 hover:bg-red-500 text-white"
+        className="bg-red-800 hover:bg-red-500 text-white py-2"
         >Logout
     </button>
   )

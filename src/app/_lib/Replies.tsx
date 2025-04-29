@@ -16,12 +16,12 @@ const Replies = ({commentReply, replyActorPairs, comment, postId, currentUser}: 
         {commentReply.map(reply => {
 
             return <SingleReply
-                            currentUser = {currentUser}
-                            postId={postId}
-                            comment = {comment}
-                            authorname={findReplyActorPairs(reply.user_id, reply.replied_id)}
-                            key={reply.replies_id}
-                            reply={reply} />
+                      currentUser = {currentUser}
+                      postId={postId}
+                      comment = {comment}
+                      authorname={findReplyActorPairs(reply.user_id, reply.replied_id)!}
+                      key={reply.replies_id}
+                      reply={reply} />
             })}
     </details> : <span className='text-[10px] text-slate-600 opacity-70 float-end m-2'>0 replies</span>
   )

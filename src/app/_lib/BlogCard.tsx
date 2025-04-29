@@ -23,12 +23,11 @@ const BlogCard = async ({id, title, excerpt, post, readTime}: BlogInfo) => {
   if (!success && redirectUrl !== null) {
       redirect(redirectUrl)
   }
-  const {comments} = data;
 
 
   return (
-    <div className="relative max-w-[600px] gap-2 min-h-56 bg-[#c8daff] text-[#111827] rounded-md border-t-[13px] border-b-[13px] border-[#111827]  p-3 px-6 flex flex-col justify-between min-w-full"
-      style={{boxShadow: "inset 0 0 20px 0 #111827"}}>
+    <div className="relative max-w-[720px] gap-2 min-h-52 bg-[#c8daff] text-[#111827] rounded-md border-t-[13px] border-b-[13px] border-[#111827]  p-3 px-6 flex flex-col justify-between min-w-full"
+      style={{boxShadow: "inset 0 0 18px 0 #111827"}}>
 
         <h2
           className="text-2xl font-[1000] font-serif">
@@ -37,18 +36,21 @@ const BlogCard = async ({id, title, excerpt, post, readTime}: BlogInfo) => {
 
         {isNew(post.createdAt) && <Image src={newBadge} alt="new badge" className="z-10 h-8 w-8 absolute top-4 right-4" />}
 
-        <div className="flex gap-2 mb-3">
+        <div className="flex gap-2 justify-between mb-2">
           <span className="text-[10px] italic opacity-65">{decideWhichFormat(post.createdAt)}</span>
           {post.isUpdated && <span className="text-[10px] italic opacity-65">Updated: {decideWhichFormat(post.lastUpdate)}</span>}
         </div>
-        <p className="text-[13px] italic">{excerpt} ...</p>
+        <p className="text-[13px] font-medium">{excerpt} ...</p>
         <div className="flex justify-between items-center flex-wrap gap-2">
-            <div className="flex gap-2 text-[14px] text-green-700 italic font-serif">
-              <p>{readTime} min Read,</p>
-              <p>Comments: {comments.length}</p>
-              <p>Likes: {post.likes.length}</p>
+            <div className="flex flex-col gap-1 text-[14px] text-green-700 italic font-serif">
+              <span>{readTime ?? "--"} min Read,</span>
+              <div className="flex  gap-2">
+                <span>{data.totalComments ?? 0} comment{data.totalComments > 1 ? "s" : ""}</span>
+                <span>{post.likes.length ?? 0} like{post.likes.length > 1 ? "s" : ""}</span>
+                <span>{post.views.length ?? 0} view{post.views.length > 1 ? "s" : ""}</span>
+              </div>
             </div>
-            <Link href={`/blog/${id}`} className="text-[#f7f8f9] bg-[#111827] no-underline  text-opacity-50 p-[6px] rounded-md hover:text-opacity-100">Read more</Link>
+            <Link href={`/blog/${id}`} className="bg-[#111827] no-underline text-yellow-500 text-opacity-60 p-[6px] rounded-md hover:text-opacity-100">Read more</Link>
         </div>
     </div>
   )

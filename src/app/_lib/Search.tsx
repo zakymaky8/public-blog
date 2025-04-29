@@ -1,41 +1,47 @@
 "use client"
 
-import { useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react"
 
 
 const Search = () => {
   const [key, setKey] = useState("");
-  // const router = useRouter();
-  // const pathname = usePathname()
+  const params = useSearchParams()
+  const router = useRouter()
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const token = getTokenFromCookies()
-  //   const res = await fetch(`http:localhost:3456/serach?keyword=${key}`, {
-  //     headers: {
-  //       "authorization": `Bearer ${token}`,
-  //       "content-type": "application/json"
-  //     }
-  //   })
-  //   if (!res.ok) {
-  //     router.replace(pathname)
-  //   }
-  // }
+  const urlParams = new URLSearchParams(params.toString())
+
+  useEffect(() => {
+    if (key === "") {
+      urlParams.set("search", "");
+      urlParams.set("page", "1");
+      router.replace(`?${urlParams.toString()}`, {scroll: false})
+    }
+  }, [key])
+
+
+  const handleSubmit = (e:FormEvent) => {
+    e.preventDefault()
+    urlParams.set("search", key!)
+    urlParams.set("page", "1")
+    const allParams = urlParams.toString()
+    router.push(`?${allParams}`, { scroll: false })
+  }
   return (
     <div>
-        <form onSubmit={()=>{}} className="bg-slate-600 p-2">
-            <div className="flex gap-1 items-center">
-                <label htmlFor="key">Search: </label>
+        <form onSubmit={handleSubmit} className="bg-slate-500 px-[14px] py-3">
+            <div className="flex gap-2 items-center">
+                <label htmlFor="key">Search </label>
                 <input
-                    className="w-32 bg-slate-800 rounded-sm p-1 box-border"
+                    className="w-full bg-slate-700 focus:outline-none focus:border-gray-400 focus:border-[1px] rounded-sm pl-2 py-[10px] box-border text-white"
                     type="search"
                     name="key"
                     value = {key}
                     onChange={(e) => setKey(e.target.value)}
                     id="key"
-                    placeholder="search in blog"
+                    placeholder="write your keyword"
                 />
-                <button type="submit">🔎</button>
+                <button className="hover:opacity-70 w-10 h-[38px]" type="submit">🔎</button>
             </div>
         </form>
     </div>

@@ -2,7 +2,7 @@
 
 import { SignUserInAction } from "@/actions/authAction";
 import { useRouter } from "next/navigation";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 
 const LoginForm = () => {
@@ -11,14 +11,16 @@ const LoginForm = () => {
 
   const [ state, formAction ] = useActionState(SignUserInAction, { success: "", message: "", redirectUrl: "" })
 
-  if (state.success && !["", null].includes(state.redirectUrl) ) {
-    router.push(state.redirectUrl!)
-  }
+  useEffect(() => {
+      if (state.success && !["", null].includes(state.redirectUrl) ) {
+        router.push(state.redirectUrl!)
+      }
+  }, [state.success])
 
   return (
     <form
       action={formAction}
-      className="flex flex-col justify-between border-2 h-max p-6 gap-5 m-4 min-w-80 rounded-xl bg-slate-500">
+      className="flex flex-col justify-between m-4 min-w-80 rounded bg-slate-500 p-6 pt-10 gap-5">
       <div className="flex justify-between gap-2 items-center">
         <label htmlFor="uname">Username: </label>
         <input

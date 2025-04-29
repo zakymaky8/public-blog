@@ -17,7 +17,7 @@ const SignUpForm = () => {
     return (
       <form
           action={formAction}
-          className="flex flex-col border-2 h-max p-8 gap-8 justify-center m-4 min-w-72 rounded-xl bg-slate-500">
+          className="flex flex-col h-max p-8 gap-8 justify-center m-4 min-w-72 rounded bg-slate-500">
 
         <div className="flex flex-col gap-4 w-full">
           <div className="flex justify-between gap-2 w-full">
@@ -58,17 +58,17 @@ const SignUpForm = () => {
                 type="password"
                 name="password"
                 id="pwd"
-                placeholder="password"
+                placeholder="********"
                 required
                 className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
           <div className="flex justify-between gap-2 w-full">
             <label htmlFor="cpwd">Confirm Password: </label>
             <input
-                type="text"
+                type="password"
                 name="confirm_password"
                 id="cpwd"
-                placeholder="confirm"
+                placeholder="********"
                 required
                 className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
