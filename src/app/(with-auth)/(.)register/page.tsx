@@ -12,7 +12,7 @@ const RegistrationPage = () => {
         <br />
         <h1  className="text-white">Sign Up</h1>
         <SignUpForm />
-        <span className="text-gray-900">Already Have One? <Link href="/login" className="no-underline text-white opacity-70 hover:opacity-100">Log in</Link></span>
+        <span className="text-gray-950">Already Have One? <Link href="/login" className="no-underline text-white opacity-70 hover:opacity-100">Log in</Link></span>
       </div>
     </div>
   )

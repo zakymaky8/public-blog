@@ -21,7 +21,14 @@ export const SignUpAction = async (prev: TSignUpState, formdata: FormData) => {
         password: formdata.get("password") as string as string,
         confirm_password: formdata.get("confirm_password") as string
     }
-
+    if (userData.password !== userData.confirm_password) {
+        return {
+            success: false,
+            message: "Password Mismatch!",
+            redirectUrl: null,
+            user: null
+        }
+    }
     try {
         const response = await fetch(url, {
             method: "POST",

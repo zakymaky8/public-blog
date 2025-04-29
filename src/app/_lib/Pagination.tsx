@@ -1,29 +1,90 @@
-// "use client"
-import { Dispatch, SetStateAction } from "react";
-import { Post } from "../(with-layout)/blog/page"
+"use client"
 
-const Pagination = ({posts, ipp, setCurrentPageData}: {
-    posts:Post[],
-    ipp: number,
-    setCurrentPageData: Dispatch<SetStateAction<Post[]>>
-}) => {
+import { useRouter, useSearchParams } from "next/navigation"
+import IppSetting from "./IppSetting"
+
+type TProps = {
+  totalPages: number,
+  totalItems: number,
+  currentPageItems: number,
+  currentPage: number,
+  itemsPerPage: number,
+  limit: number,
+  type: string
+}
+
+
+const Pagination =
+    ({
+        totalPages,
+        currentPage,
+        currentPageItems,
+        itemsPerPage,
+        totalItems,
+        limit,
+        type
+    }: TProps
+    ) => {
+
+      const params = useSearchParams()
+      const urlParams = new URLSearchParams(params.toString())
+
+      const router = useRouter()
+
+      const handlePrevClick = () => {
+          urlParams.set("page", `${currentPage > 1 ? currentPage - 1 : currentPage}`);
+          const allParams = urlParams.toString()
+          router.push(`?${allParams}`, { scroll: false })
+      }
+
+      const handleNextClick = () => {
+          urlParams.set("page", `${currentPage < totalPages ? currentPage + 1 : currentPage}`);
+          const allParams = urlParams.toString()
+          router.push(`?${allParams}`, { scroll: false })
+      }
+
 
   return (
-    <ul className="flex gap-3 self-center text-black p-1">
+    <div className="flex flex-col items-center gap-16">
+      <div className="flex items-center gap-6">
+        <button
+          title="Previous Page"
+          className={`${currentPage===1 ? "opacity-60 hover:opacity-60" : "opacity-100 hover:opacity-80"}`}
+          disabled={currentPage===1}
+          onClick={handlePrevClick}
+            >👈
+        </button>
 
-        <li>{"<"}</li>
-        {Array(Math.ceil(posts.length / ipp)).fill("").map((_item,index) => {
-            return <li onClick={()=> {
-                                const page = index + 1;
-                                const start  = ((page - 1 ) * ipp);
-                                const end = page * ipp;
-                                const curatedPosts = posts.slice(start, end);
-                                setCurrentPageData(curatedPosts)
+        <div className="flex gap-5 items-center">
 
-            }} style={{background: ""}} key={index} className="underline cursor-pointer">{index+1}</li>; {/*this fetches with the amount set on ipp*/}
-        })}
-        <li>{">"}</li>
-</ul>
+          {(currentPage === totalPages && currentPage-1 > 0) && <span className="font-extralight opacity-60 text-[13px]">{currentPage - 1}</span>}
+          <span className="font-[1000] text-xl">{currentPage}</span>
+          {currentPage < totalPages && <span className="font-extralight opacity-60 text-[13px]">{currentPage + 1}</span>}
+
+        </div>
+        <button
+          title="Next page"
+          className={`${(currentPage >= totalPages) ? "opacity-60 hover:opacity-60" : "opacity-100 hover:opacity-80"}`}
+          disabled={currentPage>=totalPages}
+          onClick={handleNextClick}
+            >👉
+        </button>
+      </div>
+      {
+          type !== "post" &&
+          <span className="text-[14px]">Total Pages:  {totalPages}</span>
+      }
+      <IppSetting type={type} limit={limit} />
+      {
+        type === "post" &&
+      <div className="flex items-start gap-3 flex-wrap-reverse text-[12px]">
+        <span>▶️ Total Posts: { totalItems }</span>
+        <span>▶️ Total Pages: { totalPages }</span>
+        <span>▶️ Posts Per Page: { itemsPerPage }</span>
+        <span>▶️ Current Page Posts: { currentPageItems }</span>
+      </div>
+      }
+    </div>
   )
 }
 
