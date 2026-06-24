@@ -101,7 +101,7 @@ const BlogDetail = async ({params, searchParams}: {
         : 
           <div className="mt-20 flex flex-col items-center gap-3">
             <Link href="/login" className="text-lg font-bold hover:opacity-60"> Sign In </Link>
-            <span className="opacity-70 text-[12px]">to see other people's enagagements (comments, replies and suggestions) with the post</span>
+            <span className="opacity-70 text-[12px]">to see other people&apos;s enagagements (comments, replies and suggestions) with the post</span>
           </div>
 
         }
