@@ -10,7 +10,7 @@ const DislikeButton = ({type, postId, bg, commentId, replyId} : {
     postId: string,
     bg: string,
     commentId: string,
-    replyId: string
+    replyId: string,
   }) => {
 
     const router = useRouter()

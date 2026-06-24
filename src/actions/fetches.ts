@@ -4,7 +4,7 @@ import { formatApiUrl } from "@/app/_lib/utils"
 import { getAccessToken } from "@/utils/server-only"
 
 
-export const fetchWithNoCache = async (url: string, token: string | undefined) => {
+export const fetchWithNoCache = async (url: string, token?: string | undefined) => {
     return await fetch(url, {
         cache: "no-cache",
         headers: {
@@ -17,11 +17,11 @@ export const fetchWithNoCache = async (url: string, token: string | undefined) =
 
 export const fetchPublishedPosts = async (search?: string, page?: number, limit?: number) => {
 
-    const token = await getAccessToken()
+    // const token = await getAccessToken()
     const url = formatApiUrl(`${process.env.API_URL}`, "/api/posts", page, search, limit, undefined)
 
     try {
-        const response = await fetchWithNoCache(url, token);
+        const response = await fetchWithNoCache(url);
         const { success, message, posts, meta } = await response.json()
         return {
             success,
@@ -46,7 +46,6 @@ export const fetchPublishedPosts = async (search?: string, page?: number, limit?
 
 export const fetchPostsComments = async (postId: string, search?: string, limit?: number, page?: number) => {
     const token = await getAccessToken();
-
     const url = formatApiUrl(process.env.API_URL, `/api/posts/${postId}/comments`, page, search, limit, undefined)
 
     try {
@@ -77,11 +76,11 @@ export const fetchPostsComments = async (postId: string, search?: string, limit?
 
 export const fetchSinglePost = async (postId: string) => {
 
-    const token = await getAccessToken()
+    // const token = await getAccessToken()
     const url = `${process.env.API_URL}/api/posts/${postId}`
 
     try {
-        const response = await fetchWithNoCache(url, token);
+        const response = await fetchWithNoCache(url);
 
         const { success, message, data } = await response.json()
         return {
@@ -106,11 +105,10 @@ export const fetchSinglePost = async (postId: string) => {
 
 export const fetchFeaturedPosts = async (search?: string, page?: number, limit?: number) => {
 
-    const token = await getAccessToken()
+    // const token = await getAccessToken()
     const url = formatApiUrl(`${process.env.API_URL}`, "/api/posts/featured", page, search, limit ?? 3, undefined)
-
     try {
-        const response = await fetchWithNoCache(url, token);
+        const response = await fetchWithNoCache(url);
         const { success, message, posts, meta } = await response.json()
         return {
             success,

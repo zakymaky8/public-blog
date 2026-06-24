@@ -6,6 +6,7 @@ import newBadge from "../../../public/new_badge_icon.svg"
 import Image from "next/image";
 import { fetchPostsComments } from "@/actions/fetches";
 import { redirect } from "next/navigation";
+import { getAccessToken } from "@/utils/server-only";
 
 interface BlogInfo {
     id: string,
@@ -13,15 +14,18 @@ interface BlogInfo {
     content: string,
     post: Post,
     readTime: number,
-    excerpt: string
+    excerpt: string,
+    slug: string
 }
 
-const BlogCard = async ({id, title, excerpt, post, readTime}: BlogInfo) => {
+const BlogCard = async ({id, title, excerpt, post, readTime, slug}: BlogInfo) => {
 
-  const { success, data, redirectUrl } = await fetchPostsComments(id);
+  const token = await getAccessToken()
+  
+  const commentsIfLoggedIn  = token ? await fetchPostsComments(id) : null;
 
-  if (!success && redirectUrl !== null) {
-      redirect(redirectUrl)
+  if (commentsIfLoggedIn && !commentsIfLoggedIn.success && commentsIfLoggedIn.redirectUrl !== null) {
+      redirect(commentsIfLoggedIn.redirectUrl)
   }
 
 
@@ -45,12 +49,12 @@ const BlogCard = async ({id, title, excerpt, post, readTime}: BlogInfo) => {
             <div className="flex flex-col gap-1 text-[14px] text-green-700 italic font-serif">
               <span>{readTime ?? "--"} min Read,</span>
               <div className="flex  gap-2">
-                <span>{data.totalComments ?? 0} comment{data.totalComments > 1 ? "s" : ""}</span>
+                { commentsIfLoggedIn &&  <span>{commentsIfLoggedIn.data.totalComments ?? 0} comment{commentsIfLoggedIn.data.totalComments > 1 ? "s" : ""}</span>}
                 <span>{post.likes.length ?? 0} like{post.likes.length > 1 ? "s" : ""}</span>
                 <span>{post.views.length ?? 0} view{post.views.length > 1 ? "s" : ""}</span>
               </div>
             </div>
-            <Link href={`/blog/${id}`} className="bg-[#111827] no-underline text-yellow-500 text-opacity-60 p-[6px] rounded-md hover:text-opacity-100">Read more</Link>
+            <Link href={`/blog/${slug}`} className="bg-[#111827] no-underline text-yellow-500 text-opacity-60 p-[6px] rounded-md hover:text-opacity-100">Read more</Link>
         </div>
     </div>
   )

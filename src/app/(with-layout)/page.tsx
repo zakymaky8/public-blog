@@ -5,7 +5,7 @@ import { getAccessToken } from "@/utils/server-only";
 import NewestPosts from "../_lib/NewestPosts";
 import FeaturedPosts from "../_lib/FeaturedPosts";
 
-
+// user / nonUser
 
 export default async function Home() {
 
@@ -20,7 +20,7 @@ export default async function Home() {
       </p>
 
       {
-        token &&
+        // token &&
         <div>
           <h3 className="text-center mb-14 mt-28 text-2xl">Featured Posts</h3>
           <FeaturedPosts />
@@ -28,7 +28,7 @@ export default async function Home() {
       }
 
       {
-        token &&
+        // token &&
         <div>
           <h3 className="text-center mb-14 mt-28 text-2xl">Latest Posts</h3>
           <NewestPosts />

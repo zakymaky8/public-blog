@@ -14,7 +14,6 @@ const FeaturedPosts = async () => {
     if (!success) {
         <Inconvienence message={message} />
     }
-
     if (posts.length > 0) {
         return (
           <ul className="flex flex-col items-center lg:flex-row gap-8 justify-center w-[96vw]">
@@ -23,7 +22,7 @@ const FeaturedPosts = async () => {
                     const ptitle = post.title.length > 30 ? post.title.slice(0, 30) + "..." : post.title
                     return (
                         <Link
-                            href={`/blog/${post.posts_id}`}
+                            href={`/blog/${post.slug}`}
                             key={post.posts_id}
                             className="gap-2 bg-[#c8daff] min-h-[310px] w-[90%] md:w-[60%] hover:bg-[#bccef0] hover:translate-x-[6px] hover:-translate-y-[6px] transition-transform duration-[600ms] text-[#111827] rounded-md p-3 px-6 flex flex-col justify-between md:max-w-[60%] pb-1"
                             style={{boxShadow: "inset 0 0 18px 0 #111827"}}>
