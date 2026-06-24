@@ -35,7 +35,7 @@ const SuggestionCard = ({suggestion, user, type}: {suggestion: TSuggestions, use
             </div>
             { suggestion.status === "ADDRESSED" &&
               <Link
-                href={`/blog/${suggestion.postsToSugg.length === 1 ? suggestion.postsToSugg[0]: `/suggestions/posts-to-suggestion?suggetion_id=${suggestion.suggns_id}`}`}
+                href={`/blog/${suggestion.postsToSugg.length === 1 ? suggestion.postsToSugg[0] : `/suggestions/posts-to-suggestion?suggetion_id=${suggestion.suggns_id}`}`}
                   ><button
                     className="text-yellow-500 hover:text-white py-[5px] px-2 text-[13px] w-max"
                      >See the Post

@@ -33,8 +33,8 @@ const SingleReply = ({reply, authorname, comment, postId, currentUser}: TProps) 
     const [isReply, setIsReply] = useState(false)
     const [infoReplierShow, setInfoReplierShow] = useState(false)
     const [infoRepliedShow, setInfoRepliedShow] = useState(false)
-    const replyIsLiked = reply.likes.includes(currentUser.users_id) ? true : false
-    const replyIsDisLiked = reply.dislikes.includes(currentUser.users_id) ? true : false
+    const replyIsLiked = (currentUser && reply.likes.includes(currentUser.users_id)) ? true : false
+    const replyIsDisLiked = (currentUser && reply.dislikes.includes(currentUser.users_id)) ? true : false
 
   return (
     <div className="relative flex flex-col p-3 pb-1 gap-2 rounded-xl m-3 bg-[#cad5f9]" style={{maxWidth: "80vw"}}>

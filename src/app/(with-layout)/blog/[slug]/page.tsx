@@ -6,6 +6,7 @@ import Inconvienence from "@/app/_lib/Inconvienence";
 import LikeButton from "@/app/_lib/LikeButton";
 import { TSuggestions } from "@/app/_lib/type";
 import { decideWhichFormat } from "@/app/_lib/utils";
+import { getAccessToken } from "@/utils/server-only";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -14,32 +15,35 @@ function cap(word: string):string {
 }
 
 
-export async function generateMetadata({ params }: {params: Promise<{blogId: string}>}) {
-  const { blogId } = await params;
-  const { data, message, success } = await fetchSinglePost(blogId);
+export async function generateMetadata({ params }: {params: Promise<{slug: string}>}) {
+  const { slug } = await params;
+  
+  const { data, message, success } = await fetchSinglePost(slug);
   if (!success ) return { title: message}
   else {
     return {title: data.post.title}
   }
 }
 
-type TParams = Promise<{ blogId: string }>;
+type TParams = Promise<{ slug: string }>;
 export type TSearchParams = Promise<{ search: string, page: number, limit: number }>
 
 const BlogDetail = async ({params, searchParams}: {
   params: TParams,
   searchParams: TSearchParams
 }) => {
-    const { blogId } = await params;
-    const { data, message, redirectUrl, status, success} = await fetchSinglePost(blogId);
+    const { slug } = await params;
+    const { data, message, redirectUrl, status, success} = await fetchSinglePost(slug);
+    console.log("suggestion within a single detailed post: ", { data, message, redirectUrl, status, success})
+    const token = await getAccessToken()
 
     if (!success || status === 404) return <Inconvienence message={message} />
     if ( !success && redirectUrl !== null) redirect(redirectUrl)
 
     const {post, author, currentUser, suggestions} = data
 
-    const postIsLiked = post?.likes?.includes(currentUser.users_id) ? true : false;
-    const postIsDisLiked = post?.dislikes?.includes(currentUser.users_id) ? true : false;
+    const postIsLiked = !currentUser ? false : post?.likes?.includes(currentUser.users_id) ? true : false
+    const postIsDisLiked = !currentUser ? false : post?.dislikes?.includes(currentUser.users_id) ? true : false
 
     return (
       <div className="text-black flex flex-col w-full items-center gap-6 p-5">
@@ -63,32 +67,47 @@ const BlogDetail = async ({params, searchParams}: {
         <div className="flex gap-5 items-center">
           <div className="flex gap-2 items-center">
             <span className="text-[14px] -mt-1 cursor-pointer">{post.dislikes?.length}</span>
-            <DislikeButton commentId="" replyId="" bg={postIsDisLiked ? "#ef4444" : "black"} type='post' postId={blogId}/>
+            <DislikeButton commentId="" replyId="" bg={postIsDisLiked ? "#ef4444" : "black"} type='post' postId={post.posts_id}/>
           </div>
           <div className="flex gap-2 items-center">
             <span className="text-[14px] -mt-1 cursor-pointer">{post.likes?.length}</span>
-            <LikeButton commentId="" replyId="" bg={postIsLiked ? "#ef4444" : "black"} type='post' postId={blogId}/>
+            <LikeButton commentId="" replyId="" bg={postIsLiked ? "#ef4444" : "black"} type='post' postId={post.posts_id}/>
           </div>
         </div>
         <span className="text-[14px] italic opacity-75">{post.views.length} view{post.views.length > 1 ? "s" : ""}</span>
         <Link href="/blog" className="text-[13px] bg-transparent hover:opacity-60 mt-14 mb-6">Back to posts</Link>
 
         <hr className="w-full border-[1px] border-black opacity-50"/>
-        <div className="mb-16 mt-5">
-          <AddCommentSec postId={blogId}/>
-          <CommentsCard postId={blogId} searchParams={searchParams}/>
-        </div>
+
         {
-          suggestions.length > 0 &&
-          <div className='self-center max-w-[600px] mt-10'>
-            <h3 className='font-bold text-[16px]'>Suggestions to the post</h3>
-            <ul className="flex flex-col gap-2">
-              {suggestions.map((sugg: TSuggestions) => {
-                return <li className="text-[14px] italic opacity-90" key={sugg.suggns_id}>{sugg.content}</li>
-              })}
-            </ul>
+          token ? 
+          <>
+            <div className="mb-16 mt-5">
+              <AddCommentSec postId={post.posts_id}/>
+              <CommentsCard postId={post.posts_id} searchParams={ searchParams }/>
+            </div> 
+          {
+              suggestions.length > 0 &&
+              <div className='self-center max-w-[600px] mt-10'>
+                <h3 className='font-bold text-[16px]'>Inspirations to the post</h3>
+                <ul className="flex flex-col gap-2">
+                  {suggestions.map((sugg: TSuggestions) => {
+                    return Boolean(sugg) && <li className="text-[14px] italic opacity-90" key={sugg.suggns_id}>{sugg.content}</li>
+                  })}
+                </ul>
+              </div>
+            }
+          </>
+        : 
+          <div className="mt-20 flex flex-col items-center gap-3">
+            <Link href="/login" className="text-lg font-bold hover:opacity-60"> Sign In </Link>
+            <span className="opacity-70 text-[12px]">to see other people's enagagements (comments, replies and suggestions) with the post</span>
           </div>
+
         }
+
+        
+
       </div>
     )
   }

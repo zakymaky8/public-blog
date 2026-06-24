@@ -14,6 +14,7 @@ export interface Post {
     excerpt: string,
     readTime: number,
     createdAt: Date,
+    slug: string,
     lastUpdate: Date,
     isUpdated: boolean,
     views: string[]
@@ -21,14 +22,37 @@ export interface Post {
 }
 
 export const metadata = {
-    title: "Blogs"
+    title: "Blogs",
+    description: "Read interesting articles on various topics",
+    keywords: ["blogs", "articles", "posts", "read", "interesting", "various topics"],
+    authors: [{ name: 'Zecharih Mekuaninit', url: 'https://yourwebsite.com' }],
+    creator: 'Zecharih Mekuaninit',
+    publisher: 'Zecharih Mekuaninit',
+    openGraph: {
+        title: 'Blogs',
+        description: 'Read interesting articles on various topics',
+        url: 'https://zach-log.vercel.app/blog',
+        siteName: 'Tip Logger',
+        images: [
+            {
+                url: '/blog-post_f68f.svg',
+                width: 800,
+                height: 600,
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    }
+    
 }
 
 const Blogs =  async ({ searchParams }: {searchParams: Promise<{ search: string, page: number, limit: number }>}) => {
+    
     const { search, page, limit } = await searchParams;
 
     const { success, posts, redirectUrl, message, status, meta } = await fetchPublishedPosts(search, page, limit);
 
+    console.log("checking blogs", { success, posts, redirectUrl, message, status, meta } )
     if (status === 404) return <Inconvienence message={message} />
     if (!success && redirectUrl !== null) redirect(redirectUrl)
     if (!success || status === 429) {
@@ -44,7 +68,7 @@ const Blogs =  async ({ searchParams }: {searchParams: Promise<{ search: string,
             <div className="text-slate-700 mb-20 p-5 flex flex-col items-center gap-8 justify-center">
                 {
                     posts.length ? posts.map((post:Post) => {
-                        return <BlogCard excerpt={post.excerpt} readTime={post.readTime} post={post} id={post.posts_id} key={post.posts_id} content={post.content} title={post.title}/>
+                        return <BlogCard excerpt={post.excerpt} readTime={post.readTime} post={post} slug={post.slug} id={post.posts_id} key={post.posts_id} content={post.content} title={post.title}/>
                     }) : <span className="mt-20">No posts available!</span>
                 }
             </div>

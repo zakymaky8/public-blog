@@ -4,6 +4,7 @@ import Link from "next/link"
 const Page = () => {
   return (
     <div className="w-full flex justify-center z-20 h-full flex-auto mt-16 p-5 mb-20">
+      <h2>Tip Logger</h2>
       <div className="flex items-center bg-slate-900 bg-opacity-80 flex-col p-5">
         <h1 className="text-white mt-8">Sign In</h1>
         <LoginForm />

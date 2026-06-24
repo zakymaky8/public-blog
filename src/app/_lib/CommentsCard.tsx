@@ -4,7 +4,7 @@ import { TReply } from "./type";
 import Replies from "./Replies";
 import { fetchPostsComments } from "@/actions/fetches";
 import Pagination from "./Pagination";
-import { TSearchParams } from "../(with-layout)/blog/[blogId]/page";
+import { TSearchParams } from "../(with-layout)/blog/[slug]/page";
 import ToggleSearchBar from "../(with-layout)/suggestions/_lib/ToggleSearchBar";
 
 
@@ -40,6 +40,7 @@ const CommentsCard = async ({postId, searchParams}: TProps) => {
     const { search, limit, page } = await searchParams;
 
     const { data:{ comments, authors, currentUser, replies, replyActorPairs, totalComments }, redirectUrl, success, meta  } = await fetchPostsComments(postId, search, limit, page)
+    console.log({ comments, authors, currentUser, replies, replyActorPairs, totalComments })
 
     if (!["", null].includes(redirectUrl) && !success) {
       redirect(redirectUrl!)
@@ -58,8 +59,8 @@ const CommentsCard = async ({postId, searchParams}: TProps) => {
         <h2 className="font-bold text-xl mb-5">Comments: {totalComments}</h2>
           {comments.length ?
             comments.map((comment: TComment) => {
-              const commentIsLiked = comment.likes.includes(currentUser.users_id) ? true : false
-              const commentIsDisLiked = comment.dislikes.includes(currentUser.users_id) ? true : false
+              const commentIsLiked = (currentUser && comment.likes.includes(currentUser.users_id)) ? true : false
+              const commentIsDisLiked = (currentUser && comment.dislikes.includes(currentUser.users_id)) ? true : false
               const commentAuthor = findAuthor(comment.user_id);
               const thisCommentReply = replies.filter((reply: TReply) => reply.comment_id === comment.comments_id) || null;
               return (

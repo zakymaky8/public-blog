@@ -57,7 +57,7 @@ export default function Header() {
           >
 
           <Link onClick={()=>setMenuShow(false)} className={`text-white ${pathname === "/" ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/">Home</Link>
-          {isLoggedIn && <Link onClick={()=>setMenuShow(false)} className={`text-white ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/blog">Blogs</Link>}
+          <Link onClick={()=>setMenuShow(false)} className={`text-white ${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} hover:text-yellow-500`} href="/blog">Blogs</Link>
           {isLoggedIn && <Link
               href="/suggestions/your-suggestions"
               onClick={()=>setMenuShow(false)}
@@ -108,11 +108,11 @@ export default function Header() {
                 <button className="bg-transparent hover:text-yellow-500"> Home </button>
             </Link>
 
-            {isLoggedIn && <Link
+            <Link
               href="/blog"
               className={`${isActive("/blog") ? "text-yellow-500 border-b-2 border-yellow-500" : ""} self-center text-gray-400`}>
                 <button className="bg-transparent hover:text-yellow-500">Blogs</button>
-            </Link>}
+            </Link>
             {isLoggedIn && <Link
               href="/suggestions/your-suggestions"
               onClick={()=>setMenuShow(false)}
