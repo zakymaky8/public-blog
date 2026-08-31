@@ -29,7 +29,7 @@ export const createRoleRequest = async ( prevState: TRoleRequestState, formData:
             },
             body: JSON.stringify(commentData)
         })
-        const { success, message, reply } = await response.json();
+        const { success, message } = await response.json();
         return {
                 success: success,
                 message: message,

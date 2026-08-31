@@ -37,7 +37,7 @@ const RoleRequestPage = async () => {
                     {
                         openRoles.length >= 1 ? openRoles.map( (openRole: TOpenRole) => {
                             return (
-                                <div className="w-full shadow p-4 px-6 rounded flex flex-col justify-between gap-3 border-[#898989] border-[1px]">
+                                <div key={openRole.open_id} className="w-full shadow p-4 px-6 rounded flex flex-col justify-between gap-3 border-[#898989] border-[1px]">
                                     <div className="flex justify-between items-center">
                                         <h3 className='text-[22px] font-bold'>{ openRole.title }</h3>
                                         <span className={`text-[11px] ${ openRole.isActive ? "text-green-900" : "text-gray-700"} text-green-900`}>{ openRole.isActive ? "Available" : "Not Available" }</span>

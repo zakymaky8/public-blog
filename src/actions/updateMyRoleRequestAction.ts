@@ -22,7 +22,7 @@ export const updateMyRoleRequestAction = async ( requestId: string, formdata: Fo
             },
             body: JSON.stringify(updatedRoleRequestData)
         })
-        const { success, message, data } = await response.json();
+        const { success, message } = await response.json();
         return {
                 success: success,
                 message: message,
