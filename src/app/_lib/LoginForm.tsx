@@ -20,12 +20,12 @@ const LoginForm = () => {
   return (
     <form
       action={formAction}
-      className="flex flex-col justify-between m-4 min-w-80 rounded bg-slate-500 p-6 pt-10 gap-5">
+      className="flex flex-col justify-between items-center m-4 min-w-80 rounded bg-slate-500 p-6 pt-10 gap-5">
       <div className="flex justify-between gap-2 items-center">
         <label htmlFor="uname">Username: </label>
         <input
           type="text"
-          name="username"
+          name="un_email"
           id="uname"
           required
           className="w-32 bg-slate-800 rounded-lg p-2 box-border h-10 flex-grow text-[white]"

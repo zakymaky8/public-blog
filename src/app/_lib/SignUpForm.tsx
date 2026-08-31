@@ -41,6 +41,17 @@ const SignUpForm = () => {
                 className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
           </div>
         </div>
+        <div className="flex justify-between gap-2 w-full">
+            <label htmlFor="lname">Email: </label>
+            <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="email"
+                required
+                className="text-[white] pl-2 bg-slate-800 rounded-lg p-1 box-border flex-grow h-10" />
+        </div>
+
         <div  className="flex flex-col gap-4 w-full">
           <div className="flex justify-between gap-2 w-full">
             <label htmlFor="uname">Username: </label>

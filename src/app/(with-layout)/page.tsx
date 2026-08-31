@@ -15,8 +15,8 @@ export default async function Home() {
     <div className="flex items-center flex-col justify-between gap-3 mb-20 p-10">
       <h2 className="text-center text-yellow-700 text-4xl mb-20 mt-20 font-bold">Welcome to Tip Logger!</h2>
       <Image priority src={blogIllustration} className="border-gray-900 border-b-2 pb-1 p-4 rounded-md round shadow-lg"  alt="blog immlustarion"/>
-      <p className="italic text-yellow-900 text-center text-sm mt-20">
-        This is the hub where you can find personal observations of mine.
+      <p className="text-yellow-900 text-center text-sm mt-20">
+        With Tiplogger you will explore different viewpoints of matter from different writers.
       </p>
 
       {

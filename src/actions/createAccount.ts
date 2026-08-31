@@ -18,6 +18,7 @@ export const SignUpAction = async (prev: TSignUpState, formdata: FormData) => {
         firstname: formdata.get("firstname") as string,
         lastname: formdata.get("lastname") as string,
         username: formdata.get("username") as string,
+        email: formdata.get("email") as string,
         password: formdata.get("password") as string as string,
         confirm_password: formdata.get("confirm_password") as string
     }

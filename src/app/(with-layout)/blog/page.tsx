@@ -18,14 +18,13 @@ export interface Post {
     lastUpdate: Date,
     isUpdated: boolean,
     views: string[]
-
 }
 
 export const metadata = {
     title: "Blogs",
     description: "Read interesting articles on various topics",
     keywords: ["blogs", "articles", "posts", "read", "interesting", "various topics"],
-    authors: [{ name: 'Zecharih Mekuaninit', url: 'https://yourwebsite.com' }],
+    authors: [{ name: 'Zecharih Mekuaninit', url: 'https://zach-log.vercel.app' }],
     creator: 'Zecharih Mekuaninit',
     publisher: 'Zecharih Mekuaninit',
     openGraph: {
@@ -52,13 +51,12 @@ const Blogs =  async ({ searchParams }: {searchParams: Promise<{ search: string,
 
     const { success, posts, redirectUrl, message, status, meta } = await fetchPublishedPosts(search, page, limit);
 
-    console.log("checking blogs", { success, posts, redirectUrl, message, status, meta } )
     if (status === 404) return <Inconvienence message={message} />
     if (!success && redirectUrl !== null) redirect(redirectUrl)
     if (!success || status === 429) {
         return (
             <div className="ml-auto text-center pt-40 p-20 text-black italic min-h-[70vh]">
-                <p className="opacity-60">{message}!</p>
+                <p className="opacity-60">{ message }!</p>
             </div>
         )
     }

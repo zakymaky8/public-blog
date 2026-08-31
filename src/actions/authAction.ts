@@ -13,7 +13,7 @@ type TSignInState = {
 export const SignUserInAction = async (prev: TSignInState, formdata: FormData) => {
 
     const userCredential = {
-        username: formdata.get("username") as string,
+        un_email: formdata.get("un_email") as string,
         password: formdata.get("password") as string
     }
 

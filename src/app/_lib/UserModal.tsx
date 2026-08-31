@@ -29,7 +29,7 @@ const UserModal = ({setIsShow, userData, setIsLoggedIn, setMenuShow}: Props) => 
         }}
         href="/user" className="flex gap-2 items-center text-black hover:text-yellow-700">
 
-          {
+          { 
             pp ? <img src={pp.secure_url} alt="user profile picture" className="rounded-[50%] w-9 h-9"/> :
             <h4 className="bg-green-800 rounded-[50%] w-9 h-9 text-white pt-[10px] text-center border-slate-700">{userData?.firstname[0].toUpperCase()}</h4>
           }
@@ -43,11 +43,13 @@ const UserModal = ({setIsShow, userData, setIsLoggedIn, setMenuShow}: Props) => 
       </div>
       }
       <div className="flex flex-col gap-2 text-[13px]">
+        <button className="text-yellow-600 hover:text-yellow-300 bg-slate-900 py-2" onClick={() => window.location.href = "/roles/role_request"}>Request Role</button>
+        <button className="text-yellow-600 hover:text-yellow-300 bg-slate-900 py-2" onClick={() => window.location.href = "/updates"}>Updates</button>
         <button className="text-yellow-600 hover:text-yellow-300 bg-slate-900 py-2" onClick={() => window.location.href = "/login"}>Login with other account</button>
         <Logout setIsLoggedIn={setIsLoggedIn}/>
 
       </div>
-        <button onClick={() => setIsShow(false)} className="bg-red-950 absolute top-7 p-0 -mt-6 hover:opacity-65 w-8 h-7 font-extralight self-end">X</button>
+        <button onClick={() => setIsShow(false)} className="bg-transparent text-[#a00000] absolute top-7 p-0 -mt-6 hover:text-[red] font-extrabold self-end">X</button>
     </div>
   )
 }
