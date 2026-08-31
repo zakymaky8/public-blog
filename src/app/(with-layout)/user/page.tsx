@@ -7,7 +7,7 @@ import DeleteAccount from '@/app/_lib/DeleteAccount';
 import { fetchUserActionFeed } from '@/actions/fetches';
 import { Post, TComment, TSuggestions } from '@/app/_lib/type';
 import Link from 'next/link';
-import { decideWhichFormat } from '@/app/_lib/utils';
+import { cap, decideWhichFormat } from '@/app/_lib/utils';
 
 export async function generateMetadata() {
   const { user, message, success } = await currentUser();
@@ -37,12 +37,14 @@ const UserProfilePage = async () => {
     <div className='flex flex-col items-center p-10'>
       <div className='flex flex-col gap-24'>
 
-        <div className='self-center'>
+        <div className='self-center clex flex-col'>
           <ProfilePic user={user}/>
           <div className='flex flex-col items-center'>
             <h3 className='m-0 mb-2 mt-6 text-[22px]'>{(user.firstname ?? "--") + " " + (user.lastname ?? "--")}</h3>
             <strong className='text-center italic font-light'>{user.username ?? "--"}</strong>
+            <p>Role: <strong> { cap(user.Role) } </strong></p>
           </div>
+
         </div>
         <div className='flex flex-col gap-3 self-center'>
           <EditProfileInfo user={user} />

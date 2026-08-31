@@ -230,7 +230,7 @@ export const fetchSingleSuggestion = async (suggId: string) => {
             success,
             message,
             status: true,
-            redirectUrl: [400, 401, 403].includes(response.status) ? "/admin-login" : null,
+            redirectUrl: [400, 401, 403].includes(response.status) ? "/login" : null,
             data
         }
     } catch {
@@ -243,3 +243,86 @@ export const fetchSingleSuggestion = async (suggId: string) => {
         }
     }
 }
+
+
+export const fetchAllRoles = async () => {
+    const token = await getAccessToken();
+
+    const url = formatApiUrl(`${process.env.API_URL}`, `/api/roles`);
+
+     try {
+        const response = await fetchWithNoCache(url, token);
+        const { success, message, data } = await response.json();
+        return {
+            success,
+            message,
+            status: true,
+            redirectUrl: [400, 401, 403].includes(response.status) ? "/login" : null,
+            data
+        }
+    } catch {
+        return {
+            success: false,
+            status: false,
+            message: "Failed to fetch roles!",
+            redirectUrl: null,
+            data: null
+        }
+    }
+}
+
+
+
+export const fetchMyRequests = async () => {
+    const token = await getAccessToken();
+
+    const url = formatApiUrl(`${process.env.API_URL}`, `/api/roles/role-requests/mine`);
+
+     try {
+        const response = await fetchWithNoCache(url, token);
+        const { success, message, data } = await response.json();
+
+        console.log({ success, message, data })
+        return {
+            success,
+            message,
+            status: true,
+            redirectUrl: [400, 401, 403].includes(response.status) ? "/login" : null,
+            data
+        }
+    } catch {
+        return {
+            success: false,
+            status: false,
+            message: "Failed to fetch your request!",
+            redirectUrl: null,
+            data: null
+        }
+    }
+}
+
+
+export const fetchAllOpenRoles = async () => {
+    const token = await getAccessToken();
+    const url = formatApiUrl(`${process.env.API_URL}`, `/api/roles/open-roles`);
+    try {
+        const response = await fetchWithNoCache(url, token);
+        const { success, message, data } = await response.json();
+        return {
+            success,
+            message,
+            status: true,
+            data: data,
+            redirectUrl: [400, 401, 403].includes(response.status) ? "/admin-login" : null,
+        }
+    } catch {
+        return {
+            success: false,
+            status: false,
+            data: null,
+            message: "Failed to fetch suggestions!",
+            redirectUrl: null,
+        }
+    }
+}
+
